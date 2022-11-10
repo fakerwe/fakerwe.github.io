@@ -7,8 +7,8 @@
 
 <head>
   <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
-  <link rel="icon" href="/img/fluid.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102106828.png">
+  <link rel="icon" href="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102106828.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
@@ -16,21 +16,21 @@
   <meta name="author" content="QY">
   <meta name="keywords" content="">
   
-    <meta name="description" content="1对客户端控件的过度信任描述：此实验室未充分验证用户输入。您可以利用其采购工作流程中的逻辑缺陷以意外价格购买商品。要解决实验室问题，请购买“轻巧的l33t皮夹克”。 您可以使用以下凭据登录自己的帐户：wiener:peter 思考：根据描述应该是修改价格的支付漏洞 一般修改价格的支付漏洞有几个点 1.商品添加到购物车时 2.生成订单时 3.由订单生成付款时 解决; 登录（账号）wiener  （密">
+    <meta name="description" content="1.对客户端控件的过度信任描述：此实验室未充分验证用户输入。您可以利用其采购工作流程中的逻辑缺陷以意外价格购买商品。要解决实验室问题，请购买“轻巧的l33t皮夹克”。 您可以使用以下凭据登录自己的帐户：wiener:peter 思考：根据描述应该是修改价格的支付漏洞 一般修改价格的支付漏洞有几个点 1.商品添加到购物车时 2.生成订单时 3.由订单生成付款时 解决; 登录（账号）wiener  （">
 <meta property="og:type" content="article">
 <meta property="og:title" content="burpsuite靶场逻辑漏洞">
 <meta property="og:url" content="http://example.com/2022/11/10/burpsuite%E9%9D%B6%E5%9C%BA%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E/index.html">
 <meta property="og:site_name" content="yaya-blog">
-<meta property="og:description" content="1对客户端控件的过度信任描述：此实验室未充分验证用户输入。您可以利用其采购工作流程中的逻辑缺陷以意外价格购买商品。要解决实验室问题，请购买“轻巧的l33t皮夹克”。 您可以使用以下凭据登录自己的帐户：wiener:peter 思考：根据描述应该是修改价格的支付漏洞 一般修改价格的支付漏洞有几个点 1.商品添加到购物车时 2.生成订单时 3.由订单生成付款时 解决; 登录（账号）wiener  （密">
+<meta property="og:description" content="1.对客户端控件的过度信任描述：此实验室未充分验证用户输入。您可以利用其采购工作流程中的逻辑缺陷以意外价格购买商品。要解决实验室问题，请购买“轻巧的l33t皮夹克”。 您可以使用以下凭据登录自己的帐户：wiener:peter 思考：根据描述应该是修改价格的支付漏洞 一般修改价格的支付漏洞有几个点 1.商品添加到购物车时 2.生成订单时 3.由订单生成付款时 解决; 登录（账号）wiener  （">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/img/1.jpg">
+<meta property="og:image" content="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102104243.jpg">
 <meta property="article:published_time" content="2022-11-10T07:15:37.000Z">
-<meta property="article:modified_time" content="2022-11-10T07:27:06.762Z">
+<meta property="article:modified_time" content="2022-11-10T13:12:58.463Z">
 <meta property="article:author" content="QY">
 <meta property="article:tag" content="burpsuite靶场">
 <meta property="article:tag" content="逻辑漏洞">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/img/1.jpg">
+<meta name="twitter:image" content="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102104243.jpg">
   
   
   
@@ -72,7 +72,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -194,7 +194,7 @@
   
 
 <div id="banner" class="banner" parallax=true
-     style="background: url('/img/6.jpg') no-repeat center center; background-size: cover;">
+     style="background: url('https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102101423.jpg') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
@@ -223,7 +223,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          641 字
+          642 字
         
       </span>
     
@@ -277,7 +277,7 @@
             
               <div class="markdown-body">
                 
-                <h3 id="1对客户端控件的过度信任"><a href="#1对客户端控件的过度信任" class="headerlink" title="1对客户端控件的过度信任"></a>1对客户端控件的过度信任</h3><p>描述：此实验室未充分验证用户输入。您可以利用其采购工作流程中的逻辑缺陷以意外价格购买商品。要解决实验室问题，请购买“轻巧的l33t皮夹克”。</p>
+                <h3 id="1-对客户端控件的过度信任"><a href="#1-对客户端控件的过度信任" class="headerlink" title="1.对客户端控件的过度信任"></a>1.对客户端控件的过度信任</h3><p>描述：此实验室未充分验证用户输入。您可以利用其采购工作流程中的逻辑缺陷以意外价格购买商品。要解决实验室问题，请购买“轻巧的l33t皮夹克”。</p>
 <p>您可以使用以下凭据登录自己的帐户：<code>wiener:peter</code></p>
 <p>思考：根据描述应该是修改价格的支付漏洞</p>
 <p>一般修改价格的支付漏洞有几个点</p>
@@ -288,31 +288,31 @@
 <p>登录（账号）wiener  （密码）peter 之后</p>
 <p>进入要求修改价格的夹克衫</p>
 <p>点击添加到购物车时抓包</p>
-<p><img src="/img/imgs/image-20220710222349456.png" srcset="/img/loading.gif" lazyload alt="image-20220710222349456"></p>
-<p><img src="/img/imgs/image-20220710222516228.png" srcset="/img/loading.gif" lazyload alt="image-20220710222516228"></p>
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102053105.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102053678.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
 <p>发现带有价格的数据包</p>
 <p>修改价格为1之后放包</p>
 <p>进入购物车即可成功下单</p>
 <h3 id="2-高级逻辑漏洞"><a href="#2-高级逻辑漏洞" class="headerlink" title="2.高级逻辑漏洞"></a>2.高级逻辑漏洞</h3><p>描述：此实验室未充分验证用户输入。您可以利用其采购工作流程中的逻辑缺陷以意外价格购买商品。要解决实验室问题，请购买“轻巧的l33t皮夹克”。</p>
 <p>您可以使用以下凭据登录自己的帐户：<code>wiener:peter</code></p>
 <p>依然是支付漏洞</p>
-<p><img src="/img/imgs/image-20220711105937215.png" srcset="/img/loading.gif" lazyload alt="image-20220711105937215"></p>
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102053940.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
 <p>但是在添加到购物车里的时候已经没有价格参数</p>
 <p>那就从数量参数上入手</p>
 <p>尝试添加 0.1 等数量的产品 但是页面出现报错</p>
 <p>那么就添加负数 发现成功添加</p>
-<p><img src="/img/imgs/image-20220711111514226.png" srcset="/img/loading.gif" lazyload alt="image-20220711111514226"></p>
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102053275.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
 <p>点击结账发现提示说 付款总价不能低于0</p>
 <p>因此添加其他商品将金额大于0 即可</p>
-<p><img src="/img/imgs/image-20220711111821044.png" srcset="/img/loading.gif" lazyload alt="image-20220711111821044"></p>
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102053881.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
 <p>成功购买之后发现漏洞还未解决</p>
 <p>反过来添加正常价格的夹克衫，添加其他商品的负数即可</p>
-<p><img src="/img/imgs/image-20220711112314790.png" srcset="/img/loading.gif" lazyload alt="image-20220711112314790"></p>
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102054741.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
 <h3 id="3-安全控制不一致"><a href="#3-安全控制不一致" class="headerlink" title="3.安全控制不一致"></a>3.安全控制不一致</h3><p>描述：</p>
 <p>此实验室有缺陷的逻辑允许任意用户访问应仅对公司员工可用的管理功能。要解决实验室问题，请访问管理面板并删除 Carlos。</p>
 <p>首先要找到管理面板</p>
 <p>本打算扫描一下后台，蒙了一个&#x2F;admin 发现对了</p>
-<p><img src="/img/imgs/image-20220713115010003.png" srcset="/img/loading.gif" lazyload alt="image-20220713115010003"></p>
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102054873.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
 <p>发现需要用户DontWannaCry才可以访问管理面板</p>
 
                 
