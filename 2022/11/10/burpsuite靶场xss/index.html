@@ -16,16 +16,16 @@
   <meta name="author" content="QY">
   <meta name="keywords" content="">
   
-    <meta name="description" content="常见函数1.encodeURIComponent转义除了如下所示外的所有字符： 12不转义的字符：    A-Z a-z 0-9 - _ . ! ~ * &amp;#x27; ( )    学徒级别1.将 XSS 反射到 HTML 上下文中漏洞点：搜索栏 payload 1&lt;script&gt;alert(1)&lt;&#x2F;script&gt;  2.将 XSS 反射到 HTML 上下文中漏洞点：文章评">
+    <meta name="description" content="常见函数encodeURIComponent  转义除了如下所示外的所有字符： 12不转义的字符：    A-Z a-z 0-9 - _ . ! ~ * &amp;#x27; ( )    学徒级别1.将 XSS 反射到 HTML 上下文中漏洞点：搜索栏 payload 1&lt;script&gt;alert(1)&lt;&#x2F;script&gt;   2.将 XSS 反射到 HTML 上下文中漏洞点：文">
 <meta property="og:type" content="article">
 <meta property="og:title" content="burpsuite靶场xss">
 <meta property="og:url" content="http://example.com/2022/11/10/burpsuite%E9%9D%B6%E5%9C%BAxss/index.html">
 <meta property="og:site_name" content="yaya-blog">
-<meta property="og:description" content="常见函数1.encodeURIComponent转义除了如下所示外的所有字符： 12不转义的字符：    A-Z a-z 0-9 - _ . ! ~ * &amp;#x27; ( )    学徒级别1.将 XSS 反射到 HTML 上下文中漏洞点：搜索栏 payload 1&lt;script&gt;alert(1)&lt;&#x2F;script&gt;  2.将 XSS 反射到 HTML 上下文中漏洞点：文章评">
+<meta property="og:description" content="常见函数encodeURIComponent  转义除了如下所示外的所有字符： 12不转义的字符：    A-Z a-z 0-9 - _ . ! ~ * &amp;#x27; ( )    学徒级别1.将 XSS 反射到 HTML 上下文中漏洞点：搜索栏 payload 1&lt;script&gt;alert(1)&lt;&#x2F;script&gt;   2.将 XSS 反射到 HTML 上下文中漏洞点：文">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102104890.jpg">
 <meta property="article:published_time" content="2022-11-10T07:28:02.000Z">
-<meta property="article:modified_time" content="2022-11-10T13:12:17.713Z">
+<meta property="article:modified_time" content="2022-11-16T14:46:44.388Z">
 <meta property="article:author" content="QY">
 <meta property="article:tag" content="burpsuite靶场">
 <meta property="article:tag" content="xss">
@@ -223,7 +223,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.1k 字
+          2.6k 字
         
       </span>
     
@@ -234,7 +234,7 @@
         
         
         
-          18 分钟
+          22 分钟
         
       </span>
     
@@ -277,7 +277,9 @@
             
               <div class="markdown-body">
                 
-                <h2 id="常见函数"><a href="#常见函数" class="headerlink" title="常见函数"></a>常见函数</h2><h3 id="1-encodeURIComponent"><a href="#1-encodeURIComponent" class="headerlink" title="1.encodeURIComponent"></a>1.<code>encodeURIComponent</code></h3><p>转义除了如下所示外的所有字符：</p>
+                <p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211162246124.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<h2 id="常见函数"><a href="#常见函数" class="headerlink" title="常见函数"></a>常见函数</h2><p><code>encodeURIComponent</code> </p>
+<p>转义除了如下所示外的所有字符：</p>
 <figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs dns">不转义的字符：<br>    <span class="hljs-keyword">A</span>-Z a-z <span class="hljs-number">0</span>-<span class="hljs-number">9</span> - _ . ! ~ * &#x27; ( )<br></code></pre></td></tr></table></figure>
 
 
@@ -286,10 +288,12 @@
 <p>payload</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js">&lt;script&gt;<span class="hljs-title function_">alert</span>(<span class="hljs-number">1</span>)&lt;/script&gt;<br></code></pre></td></tr></table></figure>
 
+<hr>
 <h3 id="2-将-XSS-反射到-HTML-上下文中"><a href="#2-将-XSS-反射到-HTML-上下文中" class="headerlink" title="2.将 XSS 反射到 HTML 上下文中"></a>2.将 XSS 反射到 HTML 上下文中</h3><p>漏洞点：文章评论区</p>
 <p>payload</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs javascript">&lt;script&gt;<span class="hljs-title function_">alert</span>(<span class="hljs-number">1</span>)&lt;/script&gt;<br></code></pre></td></tr></table></figure>
 
+<hr>
 <h3 id="3-使用源的接收器中的-DOM-XSS"><a href="#3-使用源的接收器中的-DOM-XSS" class="headerlink" title="3.使用源的接收器中的 DOM XSS"></a>3.<a target="_blank" rel="noopener" href="https://portswigger.net/web-security/cross-site-scripting/dom-based/lab-document-write-sink">使用源的接收器中的 DOM XSS</a></h3><p>漏洞点：搜索栏</p>
 <p>f12打开源代码</p>
 <p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102047131.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
@@ -301,6 +305,7 @@
 <p>构造payload</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs html">&#x27;&quot;&gt;<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span>alert(1)<span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
+<hr>
 <h3 id="4-使用源在接收器中输入-DOM-XSS"><a href="#4-使用源在接收器中输入-DOM-XSS" class="headerlink" title="4.使用源在接收器中输入 DOM XSS"></a>4.使用源在接收器中输入 DOM XSS</h3><p>描述：搜索博客功能中包含一个<a target="_blank" rel="noopener" href="https://portswigger.net/web-security/cross-site-scripting/dom-based">基于 DOM 的跨站点脚本</a>执行漏洞。它使用赋值，该赋值使用 来自 的数据更改元素的 HTML 内容。</p>
 <p>dom使用了赋值形</p>
 <p>查看源代码</p>
@@ -314,6 +319,7 @@
 <p>同理 事件型payload还有</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">1</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">alert(1)</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
+<hr>
 <h3 id="5-使用源的-jQuery-锚点属性接收器中的-DOM-XSS"><a href="#5-使用源的-jQuery-锚点属性接收器中的-DOM-XSS" class="headerlink" title="5.使用源的 jQuery 锚点属性接收器中的 DOM XSS"></a>5.使用源的 jQuery 锚点属性接收器中的 DOM XSS</h3><p>描述：在提交反馈页中包含一个<a target="_blank" rel="noopener" href="https://portswigger.net/web-security/cross-site-scripting/dom-based">基于 DOM 的跨站点脚本</a>漏洞。它使用 jQuery 库的选择器函数来查找锚点元素，并使用 来自 的数据更改其属性。<code>$``href``location.search</code></p>
 <p>要解决此练习，请发出“后退”链接警报。<code>document.cookie</code></p>
 <p>思路：</p>
@@ -334,8 +340,10 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js">href=<span class="hljs-string">&quot;javascript:alert(document.cookie)&quot;</span><br></code></pre></td></tr></table></figure>
 
 <p>单击即可触发</p>
+<hr>
 <h3 id="6-使用哈希更改事件在-jQuery-选择器接收器中-SINK-中的-DOM-XSS"><a href="#6-使用哈希更改事件在-jQuery-选择器接收器中-SINK-中的-DOM-XSS" class="headerlink" title="6.使用哈希更改事件在 jQuery 选择器接收器中 SINK 中的 DOM XSS"></a>6.使用哈希更改事件在 jQuery 选择器接收器中 SINK 中的 DOM XSS</h3><p>描述：此实验室主页上包含一个<a target="_blank" rel="noopener" href="https://portswigger.net/web-security/cross-site-scripting/dom-based">基于 DOM 的跨站点脚本</a>漏洞。它使用jQuery的选择器函数自动滚动到给定的帖子，其标题通过属性传递。<code>$()``location.hash</code></p>
 <p>要解决实验室问题，请向受害者提供在其浏览器中调用该函数的攻击。<code>print()</code></p>
+<hr>
 <h3 id="7-将-XSS-反射到带有尖括号-HTML-编码的属性中"><a href="#7-将-XSS-反射到带有尖括号-HTML-编码的属性中" class="headerlink" title="7.将 XSS 反射到带有尖括号 HTML 编码的属性中"></a>7.将 XSS 反射到带有尖括号 HTML 编码的属性中</h3><p>描述：此实验室在搜索博客功能中包含一个<a target="_blank" rel="noopener" href="https://portswigger.net/web-security/cross-site-scripting/reflected">反映的跨站点脚本</a>漏洞，其中尖括号是 HTML 编码的。若要解决此实验室问题，请执行跨站点脚本攻击，该攻击会注入属性并调用函数。<code>alert</code></p>
 <p>漏洞点在搜索框中</p>
 <p>输入xss进行搜索</p>
@@ -349,6 +357,7 @@
 <p>payload</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-string">&quot;onmouseover=&quot;</span><span class="hljs-title function_">alert</span>(<span class="hljs-number">1</span>)<br><span class="hljs-comment">//onmouseover 事件发生在鼠标指针移动到元素或它的子元素上时</span><br></code></pre></td></tr></table></figure>
 
+<hr>
 <h3 id="8-将-XSS-存储到带有双引号-HTML-编码的锚点属性中href"><a href="#8-将-XSS-存储到带有双引号-HTML-编码的锚点属性中href" class="headerlink" title="8.将 XSS 存储到带有双引号 HTML 编码的锚点属性中href"></a>8.将 XSS 存储到带有双引号 HTML 编码的锚点属性中<code>href</code></h3><p>描述：此实验室在注释功能中包含一个<a target="_blank" rel="noopener" href="https://portswigger.net/web-security/cross-site-scripting/stored">存储的跨站点脚本</a>漏洞。若要解决此实验问题，请提交一个注释，该注释在单击注释作者姓名时调用该函数。<code>alert</code></p>
 <p>思路：根据描述，漏洞点在文章评论区，而且双引号会被过滤 </p>
 <p>解决：</p>
@@ -360,12 +369,47 @@
 <p>payload</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-attr">javascript</span>:<span class="hljs-title function_">alert</span>(<span class="hljs-number">1</span>)<br></code></pre></td></tr></table></figure>
 
-<h3 id="9-将-XSS-反射到带有尖括号-HTML-编码的-JavaScript-字符串中"><a href="#9-将-XSS-反射到带有尖括号-HTML-编码的-JavaScript-字符串中" class="headerlink" title="9.将 XSS 反射到带有尖括号 HTML 编码的 JavaScript 字符串中"></a>9.将 XSS 反射到带有尖括号 HTML 编码的 JavaScript 字符串中</h3><p>描述：此实验室在对尖括号进行编码的搜索查询跟踪功能中包含一个<a target="_blank" rel="noopener" href="https://portswigger.net/web-security/cross-site-scripting/reflected">反映的跨站点脚本</a>漏洞。反射发生在 JavaScript 字符串内部。要解决此实验，请执行跨站点脚本攻击，该攻击会中断 JavaScript 字符串并调用该函数。<code>alert</code></p>
-<p>思路：根据描述是在搜索框有xss，找到了对应代码</p>
+<hr>
+<h3 id="9-将-XSS-反射到带有尖括号-HTML-编码的-JavaScript-字符串中"><a href="#9-将-XSS-反射到带有尖括号-HTML-编码的-JavaScript-字符串中" class="headerlink" title="9.将 XSS 反射到带有尖括号 HTML 编码的 JavaScript 字符串中"></a>9.将 XSS 反射到带有尖括号 HTML 编码的 JavaScript 字符串中</h3><p>根据描述是在搜索框有xss，找到了对应代码</p>
 <p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102051877.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
 <p>发现搜索框输入的东西会被encodeURIComponent函数编码</p>
-<p>解决</p>
-<p>可以通过单引号提前结束</p>
+<p>可以通过单引号闭合</p>
+<p>payload</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-string">&#x27;_alert(1)_&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="10-DOM-XSS-在选择元素中使用源代码"><a href="#10-DOM-XSS-在选择元素中使用源代码" class="headerlink" title="10.DOM XSS 在选择元素中使用源代码"></a>10.DOM XSS 在选择元素中使用源代码</h3><p>随便访问一篇博客。url参数带有productId文章id</p>
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211162202327.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<p>此时文章末尾的选择项目有三个选项</p>
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211162203253.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<p>观察源代码</p>
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211162204100.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<p>发现他是从url中获取storeId参数，前面在url中并没有</p>
+<p>尝试在url里添加</p>
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211162206316.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<p>此时下拉的选项里有我们刚刚添加的storeId参数</p>
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211162207571.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<p>说明dom从url中提取参数</p>
+<p>源代码</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-variable language_">document</span>.<span class="hljs-title function_">write</span>(<span class="hljs-string">&#x27;&lt;select name=&quot;storeId&quot;&gt;&#x27;</span>);<br></code></pre></td></tr></table></figure>
+
+<p>构造payload</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml">&quot;&gt;&#x27;)<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span>alert(1)<span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211162210037.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<p>实验完成</p>
+<hr>
+<h3 id="11-AngularJS表达式中的DOM-XSS，带有尖括号和双引号HTML编码"><a href="#11-AngularJS表达式中的DOM-XSS，带有尖括号和双引号HTML编码" class="headerlink" title="11.AngularJS表达式中的DOM XSS，带有尖括号和双引号HTML编码"></a>11.AngularJS表达式中的DOM XSS，带有尖括号和双引号HTML编码</h3><p>在搜索框输入任意字符搜索</p>
+<p>查看原代码</p>
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211162221024.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<p>发现代码熟悉ng-app，名调用了AngularJS</p>
+<p>AngularJS是一个流行的JavaScript库，它扫描包含属性的HTML节点的内容（也称为AngularJS指令）。将指令添加到 HTML 代码时，可以在双大括号内执行 JavaScript 表达式。在对尖括号进行编码时，此技术很有用。<code>ng-app</code></p>
+<p>AngularJS造成xss参考文章<a target="_blank" rel="noopener" href="https://www.mianshigee.com/note/detail/76633iai/">https://www.mianshigee.com/note/detail/76633iai/</a></p>
+<p>使用payload</p>
+<figure class="highlight handlebars"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs handlebars"><span class="hljs-template-variable">&#123;&#123;<span class="hljs-name">constructor.constructor</span>(<span class="hljs-name">&#x27;alert(1)&#x27;</span>)()&#125;&#125;</span><span class="language-xml"> </span><br></code></pre></td></tr></table></figure>
+
+<p>完成实验</p>
+<p>当引用了第三方js库就可能引起xss</p>
 
                 
               </div>
@@ -762,5 +806,20 @@
   <noscript>
     <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
   </noscript>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>
